@@ -13,6 +13,9 @@ var p = Mu.prototype = Object.create(EventEmitter.prototype);
 
 p.add = function(t) {
     this.queue.push(t);
+    if (this.queue.length == 1) {
+        this.dospotify.play(this.queue[0]);
+    }
 };
 
 p.getQueue = function(t) {
@@ -24,13 +27,13 @@ p.isEmpty = function(t) {
 };
 
 p.isMany = function(t) {
-    return this.queue.length > 1;
+    return this.queue.length >= 1;
 };
 
 p.playNext = function() {
     this.queue.shift();
-    if (this.queue.length > 1) {
-        dospotify.play(this.queue[0]);
+    if (this.isMany()) {
+        this.dospotify.play(this.queue[0]);
     }
 };
 
@@ -40,3 +43,4 @@ p.init = function(dspf) {
 };
 
 exports.instance = new Mu();
+

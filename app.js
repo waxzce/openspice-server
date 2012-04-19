@@ -2,7 +2,7 @@ var app = require('express').createServer(),
 io = require('socket.io').listen(app),
 express = require('express'),
 dospotify = require('./dospotify.js').instance.init(io),
-music_queue = require('./musicqueue.js').instance.init(dospotify);
+musicqueue = require('./musicqueue.js').instance.init(dospotify);
 
 app.listen(8066);
 
@@ -35,17 +35,11 @@ function(socket) {
     socket.on('add_queue',
     function(data) {
         musicqueue.add(data);
-        if (queue_of_music.length <= 1) {
-            dospotify.play(data);
-        }
-
     });
 
     socket.on('nextmusic_request',
     function(data) {
-        if (musicqueue.isMany()) {
-            dospotify.playNext();
-        }
+        musicqueue.playNext();
     });
 
 });
@@ -59,5 +53,5 @@ function(e) {
 
 dospotify.on('play_done',
 function(e) {
-    dospotify.playNext();
+    musicqueue.playNext();
 });
