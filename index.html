@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>music Bootstrap</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap-responsive.css" rel="stylesheet">
+   <script src="/js/jquery-1.7.2.min.js"></script>
+   <script src="/js/underscore-min.js"></script>
+    
+  </head>
+
+  <body data-spy="scroll" data-target=".subnav" data-offset="50">
+
+    <div class="navbar">
+    <div class="navbar-inner">
+    <div class="container">
+	    <a class="brand" href="#">
+	    Music bootstrap
+	    </a>
+	    <form id="search_track" class="navbar-search pull-right">
+			<input type="text" class="search-query" placeholder="Search for track" /> <a class="btn btn-inverse"><i class="icon-search icon-white"></i></a>
+			
+	    </form>
+	   </div>
+    </div>
+    </div>
+
+
+
+
+<div></div>
+<div class="container-fluid">
+<div class="row-fluid">
+<div class="span4">
+	<ul class="nav nav-list well">
+    <li>
+   		<button id="nextmusic" class="btn"><i class="icon-fast-forward"></i></button>
+		<button id="queue_list" class="btn"><i class="icon-road"></i></button>
+    </li>
+    </ul>
+  	
+</div>
+
+<div class="span8">
+	<h3></h3>
+    <table id="result" class="table table-striped">
+
+    </table>
+</div>
+</div>
+</div>
+
+
+<script src="http://colabzik.fake:8066/socket.io/socket.io.js"></script>
+<script src="/js/script.js"></script>
+
+  </body>
+</html>
