@@ -1,21 +1,18 @@
 var socket = io.connect(window.location);
 
-var refresh_queue = function() {
-    $.ajax({
+
+$(function() {
+
+
+	$.ajax({
         url: "/api/queue",
     }).done(function(data) {
         _.each(data,
         function(t, i) {
             //			$('#result').append('<tr data-spurl="'+t.href+'"><td>    <i class="icon-music"></i></td><td>'+t.name+'</td><td>'+t.artists[0].name+'</td></tr>');
-            $('#muqueue').append('<tr><td>    <i class="icon-music"></i></td><td>' + t.name + '</td><td>' + t.artists[0].name + '</td></tr>');
+	        $('#mainmenu').append('<li class="playlist_fellows"><i class="icon-music"></i><strong>' + t.name + '</strong> - ' + t.artists[0].name + '</li>');
         });
     });
-};
-$(function() {
-
-
-    refresh_queue();
-
 
 
     $('#nextmusic').click(_.bind(function() {
