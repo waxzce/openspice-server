@@ -4,6 +4,8 @@ express = require('express'),
 dospotify = require('./dospotify.js').instance.init(io),
 musicqueue = require('./musicqueue.js').instance.init(dospotify);
 
+var cu_play = {};
+
 app.listen(8066);
 
 app.configure(function() {
@@ -28,6 +30,11 @@ function(req, res) {
     res.send(JSON.stringify(musicqueue.getQueue()));
 });
 
+app.get('/api/playing',
+function(req, res) {
+    res.contentType('application/json');
+    res.send(JSON.stringify(cu_play));
+});
 
 io.sockets.on('connection',
 function(socket) {
@@ -49,7 +56,8 @@ function(socket) {
 dospotify.on('play',
 function(e) {
     io.sockets.emit('play', e);
-});
+    cu_play = e;
+}.bind(this));
 
 dospotify.on('play_done',
 function(e) {
@@ -59,4 +67,9 @@ function(e) {
 musicqueue.on('added',
 function(e) {
     io.sockets.emit('queue_add', e);
+});
+
+musicqueue.on('next',
+function(e) {
+    io.sockets.emit('queue_next');
 });

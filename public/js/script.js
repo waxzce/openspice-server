@@ -1,7 +1,7 @@
 var socket = io.connect(window.location);
 
-var refresh_queue = function(){
-	$.ajax({
+var refresh_queue = function() {
+    $.ajax({
         url: "/api/queue",
     }).done(function(data) {
         _.each(data,
@@ -14,34 +14,63 @@ var refresh_queue = function(){
 $(function() {
 
 
-	refresh_queue();
+    refresh_queue();
+
 
 
     $('#nextmusic').click(_.bind(function() {
         socket.emit('nextmusic_request', {});
     },
     this));
-
-
-    
-	
-	socket.on('queue_add',
-	function(t) {
-        $('#muqueue').append('<tr><td>    <i class="icon-music"></i></td><td>' + t.name + '</td><td>' + t.artists[0].name + '</td></tr>');
-	});
-	
-	socket.on('play_done',
-	function(t) {
-        $('#muqueue table tr:first').remove();
-	});
-	
-	socket.on('play',
-	function(t) {
+    $.ajax({
+        url: "/api/playing",
+    }).done(function(t) {
         $('#playing').html('<h5>' + t.name + '</h5><p>' + t.artists[0].name + '</p>');
-	});
+    });
+    socket.on('play',
+    function(t) {
+        $('#playing').html('<h5>' + t.name + '</h5><p>' + t.artists[0].name + '</p>');
+    });
+
+
+
+
+    socket.on('queue_add',
+    function(t) {
+        $('#mainmenu').append('<li class="playlist_fellows"><i class="icon-music"></i><strong>' + t.name + '</strong> - ' + t.artists[0].name + '</li>');
+    });
+
+    socket.on('queue_next',
+    function(t) {
+        $('#mainmenu li.playlist_fellows:first').remove();
+    });
+
 
 });
 
+var searchfor = function(qq) {
+    $('#result').empty();
+    $('h3').text(qq);
+    $.ajax({
+        url: "http://ws.spotify.com/search/1/track.json",
+        data: {
+            'q': qq
+        },
+        dataType: 'json'
+    }).done(function(data) {
+        console.log(data);
+        $('h3').text(data.info.query);
+        _.each(data.tracks,
+        function(t, i) {
+            $('<tr data-spurl="' + t.href + '"><td>    <i class="icon-music"></i></td><td>' + t.name + '</td><td>' + t.artists[0].name + '</td><td><button class="btn fnct_plus"><i class="icon-plus"></i></button></td></tr>')
+            .data('trackdata', t).appendTo('#result');
+        });
+        $('#result button.fnct_plus').click(function(e) {
+            socket.emit('add_queue', $(e.target).parents('tr').data('trackdata'));
+        });
+
+    });
+};
 
 $(function() {
 
@@ -50,27 +79,11 @@ $(function() {
     });
 
     $('#search_track').submit(function(e) {
-        e.preventDefault();
-        $('#result').empty();
-        $('h3').text($('#search_track input').val());
-        $.ajax({
-            url: "http://ws.spotify.com/search/1/track.json",
-            data: {
-                'q': $('#search_track input').val()
-            },
-            dataType: 'json'
-        }).done(function(data) {
-            console.log(data);
-            $('h3').text(data.info.query);
-            _.each(data.tracks,
-            function(t, i) {
-                $('<tr data-spurl="' + t.href + '"><td>    <i class="icon-music"></i></td><td>' + t.name + '</td><td>' + t.artists[0].name + '</td><td><button class="btn fnct_plus"><i class="icon-plus"></i></button></td></tr>')
-                .data('trackdata', t).appendTo('#result');
-            });
-            $('#result button.fnct_plus').click(function(e) {
-                socket.emit('add_queue', $(e.target).parents('tr').data('trackdata'));
-            });
-
-        });
+	    e.preventDefault();
+        searchfor($('#search_track input').val());
+		$('<li class="recentqueuryitem">'+$('#search_track input').val()+'</li>').click(function(e){
+			searchfor($(e.target).parent('li').text());
+		}).insertAfter('#recent_query');
+		$('li.recentqueuryitem:gt(5)').remove();
     });
 });

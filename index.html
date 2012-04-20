@@ -20,7 +20,7 @@
     <div class="navbar">
     <div class="navbar-inner">
     <div class="container">
-	    <a class="brand" href="#">
+	    <a class="brand">
 	    Music bootstrap
 	    </a>
 	    <form id="search_track" class="navbar-search pull-right">
@@ -38,13 +38,20 @@
 <div class="container-fluid">
 <div class="row-fluid">
 <div class="span4">
-	<div id="paying" class="well">
+	<div id="playing" class="well">
    
 	</div>
-	<h3 style="padding:5px;"><i class="icon-refresh"></i> Music queue</h3>
-  	<table id="muqueue" class="well table table-striped">
+	<ul id="mainmenu" class="well nav nav-list">
+		<li id="recent_query" class="nav-header">
+			Recent Queries
+		</li>
+      <li class="divider"></li>
+	  <li id="playlist_next" class="nav-header">
+		Music queue
+	  </li>
+	  
+	</ul>
 
-    </table>
 </div>
 
 <div class="span8">
