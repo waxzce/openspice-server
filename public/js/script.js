@@ -121,8 +121,30 @@ var searchfor = function(qq, pagenum) {
         $('#result button.fnct_plus:not(.disabled)').click(function(e) {
             socket.emit('add_queue', $(e.target).parents('tr').data('trackdata'));
         });
+        $('#result a.album').click(function(e) {
+            showAlbum($(e.target).attr("data-spuri"));
+            return false;
+        });
 
     });
+};
+
+var showAlbum = function(albumURI) {
+    $('#result').empty();
+    $('h3').text("Chargement");
+    $.ajax({
+        url: "http://ws.spotify.com/lookup/1/.json",
+        data: {
+            'uri': albumURI,
+            'extras': 'track'
+        },
+        dataType: 'json'
+    }).done(function(data) {
+        $('h3').text(data.album.artist +' - '+ data.album.name);
+        var trackList = _.map(data.album.tracks, function(t) { return '<tr><td>' + t.name + '</td></tr>';});
+        $(trackList.join("")).appendTo('#result');
+    });
+
 };
 
 $(function() {
