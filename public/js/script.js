@@ -51,7 +51,7 @@ $(function() {
 
 var searchfor = function(qq) {
     var trackRowTemplate = _.template(
-            '<tr><td><i class="icon-music"></i></td><td><%= name %></td><td><%= artists %></td><td><button class="btn fnct_plus <%= disabled%>"><i class="icon-plus"></i></button></td></tr>');
+            '<tr><td><i class="icon-music"></i></td><td><%= name %></td><td><%= artists %></td><td><%= album%></td><td><button class="btn fnct_plus <%= disabled%>"><i class="icon-plus"></i></button></td></tr>');
     $('#result').empty();
     $('h3').text(qq);
     $.ajax({
@@ -67,6 +67,7 @@ var searchfor = function(qq) {
             $(trackRowTemplate({
                 name: t.name,
                 artists: _.pluck(t.artists, "name").join(", "),
+                album: '<a href="#" data-spuri="'+t.album.href+'" class="album">'+t.album.name+'</a>',
                 disabled: (!_.include(t.album.availability.territories.split(" "), options.country) ? "disabled" : "")
             })).data('trackdata', t).appendTo('#result');
         });
