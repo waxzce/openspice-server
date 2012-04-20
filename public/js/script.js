@@ -1,5 +1,9 @@
 var socket = io.connect(window.location);
 
+var options = {
+    country: "FR"
+};
+
 
 $(function() {
 
@@ -48,9 +52,11 @@ $(function() {
 });
 
 var searchfor = function(qq, pagenum) {
-    if (typeof pagenum == undefined) {
-        pagenum = 1;
-    }
+    var trackRowTemplate = _.template(
+            '<tr><td><i class="icon-music"></i></td><td><%= name %></td><td><%= artists %></td><td><%= album%></td><td><button class="btn fnct_plus <%= disabled%>"><i class="icon-plus"></i></button></td></tr>');
+
+    var pagenum = (typeof pagenum == "undefined" ? 1 : pagenum);
+
     $('#result').empty();
     $('h3').text(qq);
     $.ajax({
@@ -61,7 +67,8 @@ var searchfor = function(qq, pagenum) {
         },
         dataType: 'json'
     }).done(function(data) {
-        console.log(data);
+        $('h3').text(data.info.query);
+
         var di = data.info;
         $('h3').text(di.query);
 
@@ -104,10 +111,14 @@ var searchfor = function(qq, pagenum) {
 
         _.each(data.tracks,
         function(t, i) {
-            $('<tr data-spurl="' + t.href + '"><td>    <i class="icon-music"></i></td><td>' + t.name + '</td><td>' + t.artists[0].name + '</td><td><button class="btn fnct_plus"><i class="icon-plus"></i></button></td></tr>')
-            .data('trackdata', t).appendTo('#result');
+            $(trackRowTemplate({
+                name: t.name,
+                artists: _.pluck(t.artists, "name").join(", "),
+                album: '<a href="#" data-spuri="'+t.album.href+'" class="album">'+t.album.name+'</a>',
+                disabled: (!_.include(t.album.availability.territories.split(" "), options.country) ? "disabled" : "")
+            })).data('trackdata', t).appendTo('#result');
         });
-        $('#result button.fnct_plus').click(function(e) {
+        $('#result button.fnct_plus:not(.disabled)').click(function(e) {
             socket.emit('add_queue', $(e.target).parents('tr').data('trackdata'));
         });
 
