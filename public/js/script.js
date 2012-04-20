@@ -113,7 +113,9 @@ var searchfor = function(qq, pagenum) {
         function(t, i) {
             $(trackRowTemplate({
                 name: t.name,
-                artists: _.pluck(t.artists, "name").join(", "),
+                artists: _.map(t.artists, function(a) {
+                    return '<a href="#" data-spuri="'+ a.href +'" class="artist">'+ a.name +'</a>';
+                }).join(", "),
                 album: '<a href="#" data-spuri="' + t.album.href + '" class="album">' + t.album.name + '</a>',
                 disabled: (!_.include(t.album.availability.territories.split(" "), options.country) ? "disabled": "")
             })).data('trackdata', t).appendTo('#result');
@@ -123,6 +125,10 @@ var searchfor = function(qq, pagenum) {
         });
         $('#result a.album').click(function(e) {
             showAlbum($(e.target).attr("data-spuri"));
+            return false;
+        });
+        $('#result a.artist').click(function(e) {
+            showArtist($(e.target).attr("data-spuri"));
             return false;
         });
 
@@ -150,6 +156,17 @@ var showAlbum = function(albumURI) {
         $(trackList.join("")).appendTo('#result');
     });
 
+};
+
+var showArtist = function(artistURI) {
+    $('#result').empty();
+    $('.pagination').empty();
+    $('h3').text("Chargement");
+    performLookup(artistURI, ['album'], function(data) {
+        $('h3').text(data.artist.name);
+        var albumList = _.map(data.artist.albums, function(a) { return '<tr><td>' + a.album.name + '</td></tr>';});
+        $(albumList.join("")).appendTo('#result');
+    });
 };
 
 $(function() {
