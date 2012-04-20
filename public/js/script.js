@@ -50,6 +50,8 @@ $(function() {
 });
 
 var searchfor = function(qq) {
+    var trackRowTemplate = _.template(
+            '<tr><td><i class="icon-music"></i></td><td><%= name %></td><td><%= artists %></td><td><button class="btn fnct_plus <%= disabled%>"><i class="icon-plus"></i></button></td></tr>');
     $('#result').empty();
     $('h3').text(qq);
     $.ajax({
@@ -63,8 +65,11 @@ var searchfor = function(qq) {
         $('h3').text(data.info.query);
         _.each(data.tracks,
         function(t, i) {
-            $('<tr data-spurl="' + t.href + '"><td>    <i class="icon-music"></i></td><td>' + t.name + '</td><td>' + t.artists[0].name + '</td><td><button class="btn fnct_plus'+ (_.include(t.album.availability.territories.split(" "), options.country) ? '' : ' disabled')+'"><i class="icon-plus"></i></button></td></tr>')
-            .data('trackdata', t).appendTo('#result');
+            $(trackRowTemplate({
+                name: t.name,
+                artists: _.pluck(t.artists, "name").join(", "),
+                disabled: (!_.include(t.album.availability.territories.split(" "), options.country) ? "disabled" : "")
+            })).data('trackdata', t).appendTo('#result');
         });
         $('#result button.fnct_plus:not(.disabled)').click(function(e) {
             socket.emit('add_queue', $(e.target).parents('tr').data('trackdata'));
