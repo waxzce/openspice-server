@@ -129,17 +129,22 @@ var searchfor = function(qq, pagenum) {
     });
 };
 
-var showAlbum = function(albumURI) {
-    $('#result').empty();
-    $('h3').text("Chargement");
+var performLookup = function(uri, extras, callback) {
     $.ajax({
         url: "http://ws.spotify.com/lookup/1/.json",
         data: {
-            'uri': albumURI,
-            'extras': 'track'
+            'uri': uri,
+            'extras': extras.join(",")
         },
         dataType: 'json'
-    }).done(function(data) {
+    }).done(callback);
+};
+
+var showAlbum = function(albumURI) {
+    $('#result').empty();
+    $('.pagination').empty();
+    $('h3').text("Chargement");
+    performLookup(albumURI, ['track'], function(data) {
         $('h3').text(data.album.artist +' - '+ data.album.name);
         var trackList = _.map(data.album.tracks, function(t) { return '<tr><td>' + t.name + '</td></tr>';});
         $(trackList.join("")).appendTo('#result');
