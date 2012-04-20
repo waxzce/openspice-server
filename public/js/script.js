@@ -1,5 +1,9 @@
 var socket = io.connect(window.location);
 
+var options = {
+    country: "FR"
+};
+
 
 $(function() {
 
@@ -59,7 +63,7 @@ var searchfor = function(qq) {
         $('h3').text(data.info.query);
         _.each(data.tracks,
         function(t, i) {
-            $('<tr data-spurl="' + t.href + '"><td>    <i class="icon-music"></i></td><td>' + t.name + '</td><td>' + t.artists[0].name + '</td><td><button class="btn fnct_plus'+ (_.include(t.album.availability.territories.split(" "), "FR") ? '' : ' disabled')+'"><i class="icon-plus"></i></button></td></tr>')
+            $('<tr data-spurl="' + t.href + '"><td>    <i class="icon-music"></i></td><td>' + t.name + '</td><td>' + t.artists[0].name + '</td><td><button class="btn fnct_plus'+ (_.include(t.album.availability.territories.split(" "), options.country) ? '' : ' disabled')+'"><i class="icon-plus"></i></button></td></tr>')
             .data('trackdata', t).appendTo('#result');
         });
         $('#result button.fnct_plus:not(.disabled)').click(function(e) {
