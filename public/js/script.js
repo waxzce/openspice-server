@@ -152,8 +152,15 @@ var showAlbum = function(albumURI) {
     $('h3').text("Chargement");
     performLookup(albumURI, ['track'], function(data) {
         $('h3').text(data.album.artist +' - '+ data.album.name);
-        var trackList = _.map(data.album.tracks, function(t) { return '<tr><td>' + t.name + '</td></tr>';});
-        $(trackList.join("")).appendTo('#result');
+        var trackList = _.each(data.album.tracks, function(t) {
+            $('<tr><td>'+ t.name  +'</td></tr>').data('trackdata', t).appendTo('#result');
+        });
+    });
+    $('#result').before('<button class="btn btn-success add-all"><i class="icon-plus icon-white"></i>Add everything</button>');
+    $('.add-all').click(function(e) {
+        _.each($('#result tr'), function(row) {
+            socket.emit('add_queue', $(row).data('trackdata'));
+        });
     });
 
 };
