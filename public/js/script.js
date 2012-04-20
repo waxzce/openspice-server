@@ -40,7 +40,7 @@ $(function() {
         $('#mainmenu').append('<li class="playlist_fellows"><i class="icon-music"></i><strong>' + t.name + '</strong> - ' + t.artists[0].name + '</li>');
     });
 
-    socket.on('queue_next',
+    socket.on('queue_next_a',
     function(t) {
         $('#mainmenu li.playlist_fellows:first').remove();
     });

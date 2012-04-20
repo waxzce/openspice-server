@@ -43,12 +43,12 @@ function(socket) {
     function(data) {
         musicqueue.add(data);
     });
-
+/*
     socket.on('nextmusic_request',
     function(data) {
         musicqueue.playNext();
     });
-
+*/
 });
 
 
@@ -71,5 +71,5 @@ function(e) {
 
 musicqueue.on('next',
 function(e) {
-    io.sockets.emit('queue_next');
+    io.sockets.emit('queue_next_a');
 });
