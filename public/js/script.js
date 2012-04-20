@@ -61,7 +61,6 @@ var searchfor = function(qq) {
         },
         dataType: 'json'
     }).done(function(data) {
-        console.log(data);
         $('h3').text(data.info.query);
         _.each(data.tracks,
         function(t, i) {
