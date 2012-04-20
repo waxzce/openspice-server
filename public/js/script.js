@@ -58,6 +58,7 @@ var searchfor = function(qq, pagenum) {
     var pagenum = (typeof pagenum == "undefined" ? 1: pagenum);
 
     $('#result').empty();
+    $('.pagination').empty();
     $('h3').text(qq);
     $.ajax({
         url: "http://ws.spotify.com/search/1/track.json",
@@ -73,7 +74,6 @@ var searchfor = function(qq, pagenum) {
         $('h3').text(di.query);
 
         if (di.num_results > di.limit) {
-            $('.pagination').empty();
             if (di.page > 1) {
                 $('<li><a href="#"><i class="icon-arrow-left"></i></a></li>')
                 .click(_.bind(searchfor, this, di.query, di.page - 1))
