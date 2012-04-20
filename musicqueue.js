@@ -16,7 +16,7 @@ p.add = function(t) {
     if (this.queue.length == 1) {
         this.dospotify.play(this.queue[0]);
     }
-	this.emit('added', t);
+    this.emit('added', t);
 };
 
 p.getQueue = function(t) {
@@ -36,7 +36,7 @@ p.playNext = function() {
     if (this.isMany()) {
         this.dospotify.play(this.queue[0]);
     }
-	this.emit('next');
+    this.emit('next');
 
 };
 

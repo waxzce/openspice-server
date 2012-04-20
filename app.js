@@ -43,7 +43,7 @@ function(socket) {
     function(data) {
         musicqueue.add(data);
     });
-/*
+    /*
     socket.on('nextmusic_request',
     function(data) {
         musicqueue.playNext();

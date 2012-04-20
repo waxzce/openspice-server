@@ -53,9 +53,9 @@ $(function() {
 
 var searchfor = function(qq, pagenum) {
     var trackRowTemplate = _.template(
-            '<tr><td><i class="icon-music"></i></td><td><%= name %></td><td><%= artists %></td><td><%= album%></td><td><button class="btn fnct_plus <%= disabled%>"><i class="icon-plus"></i></button></td></tr>');
+    '<tr><td><i class="icon-music"></i></td><td><%= name %></td><td><%= artists %></td><td><%= album%></td><td><button class="btn fnct_plus <%= disabled%>"><i class="icon-plus"></i></button></td></tr>');
 
-    var pagenum = (typeof pagenum == "undefined" ? 1 : pagenum);
+    var pagenum = (typeof pagenum == "undefined" ? 1: pagenum);
 
     $('#result').empty();
     $('h3').text(qq);
@@ -73,7 +73,7 @@ var searchfor = function(qq, pagenum) {
         $('h3').text(di.query);
 
         if (di.num_results > di.limit) {
-			$('.pagination').empty();
+            $('.pagination').empty();
             if (di.page > 1) {
                 $('<li><a href="#"><i class="icon-arrow-left"></i></a></li>')
                 .click(_.bind(searchfor, this, di.query, di.page - 1))
@@ -94,10 +94,10 @@ var searchfor = function(qq, pagenum) {
                 .appendTo('.pagination');
                 pageid++;
             }
-            if (pageid < maxpages ) {
+            if (pageid < maxpages) {
                 $('<li><a class=".disabled" href="#">...</a></li>').appendTo('.pagination');
-			}
-	        if (pageid <= maxpages) {
+            }
+            if (pageid <= maxpages) {
                 $('<li><a href="#">' + maxpages + '</a></li>')
                 .click(_.bind(searchfor, this, di.query, maxpages))
                 .appendTo('.pagination');
@@ -114,8 +114,8 @@ var searchfor = function(qq, pagenum) {
             $(trackRowTemplate({
                 name: t.name,
                 artists: _.pluck(t.artists, "name").join(", "),
-                album: '<a href="#" data-spuri="'+t.album.href+'" class="album">'+t.album.name+'</a>',
-                disabled: (!_.include(t.album.availability.territories.split(" "), options.country) ? "disabled" : "")
+                album: '<a href="#" data-spuri="' + t.album.href + '" class="album">' + t.album.name + '</a>',
+                disabled: (!_.include(t.album.availability.territories.split(" "), options.country) ? "disabled": "")
             })).data('trackdata', t).appendTo('#result');
         });
         $('#result button.fnct_plus:not(.disabled)').click(function(e) {
