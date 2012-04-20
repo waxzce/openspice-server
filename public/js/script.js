@@ -1,15 +1,20 @@
-var socket = io.connect('http://colabzik.fake:8066');
+var socket = io.connect(window.location);
 
-socket.on('play',
-function(data) {
-    console.log(data);
-});
-
-
+var refresh_queue = function(){
+	$.ajax({
+        url: "/api/queue",
+    }).done(function(data) {
+        _.each(data,
+        function(t, i) {
+            //			$('#result').append('<tr data-spurl="'+t.href+'"><td>    <i class="icon-music"></i></td><td>'+t.name+'</td><td>'+t.artists[0].name+'</td></tr>');
+            $('#muqueue').append('<tr><td>    <i class="icon-music"></i></td><td>' + t.name + '</td><td>' + t.artists[0].name + '</td></tr>');
+        });
+    });
+};
 $(function() {
 
 
-
+	refresh_queue();
 
 
     $('#nextmusic').click(_.bind(function() {
@@ -18,23 +23,22 @@ $(function() {
     this));
 
 
-    $('#queue_list').click(_.bind(function() {
-        $('#result').empty();
-        $('h3').text('Next tracks...');
-        $.ajax({
-            url: "/api/queue",
-        }).done(function(data) {
-            _.each(data,
-            function(t, i) {
-                //			$('#result').append('<tr data-spurl="'+t.href+'"><td>    <i class="icon-music"></i></td><td>'+t.name+'</td><td>'+t.artists[0].name+'</td></tr>');
-                $('#result').append('<tr>><td>    <i class="icon-music"></i></td><td>' + t.name + '</td><td>' + t.artists[0].name + '</td></tr>');
-
-            });
-
-
-        });
-    },
-    this));
+    
+	
+	socket.on('queue_add',
+	function(t) {
+        $('#muqueue').append('<tr><td>    <i class="icon-music"></i></td><td>' + t.name + '</td><td>' + t.artists[0].name + '</td></tr>');
+	});
+	
+	socket.on('play_done',
+	function(t) {
+        $('#muqueue table tr:first').remove();
+	});
+	
+	socket.on('play',
+	function(t) {
+        $('#playing').html('<h5>' + t.name + '</h5><p>' + t.artists[0].name + '</p>');
+	});
 
 });
 
@@ -60,11 +64,11 @@ $(function() {
             $('h3').text(data.info.query);
             _.each(data.tracks,
             function(t, i) {
-                $('<tr data-spurl="' + t.href + '"><td>    <i class="icon-music"></i></td><td>' + t.name + '</td><td>' + t.artists[0].name + '</td></tr>')
+                $('<tr data-spurl="' + t.href + '"><td>    <i class="icon-music"></i></td><td>' + t.name + '</td><td>' + t.artists[0].name + '</td><td><button class="btn fnct_plus"><i class="icon-plus"></i></button></td></tr>')
                 .data('trackdata', t).appendTo('#result');
             });
-            $('#result tr').click(function(e) {
-                socket.emit('add_queue', $(e.target).parent('tr').data('trackdata'));
+            $('#result button.fnct_plus').click(function(e) {
+                socket.emit('add_queue', $(e.target).parents('tr').data('trackdata'));
             });
 
         });

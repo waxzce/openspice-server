@@ -38,13 +38,13 @@
 <div class="container-fluid">
 <div class="row-fluid">
 <div class="span4">
-	<ul class="nav nav-list well">
-    <li>
-   		<button id="nextmusic" class="btn"><i class="icon-fast-forward"></i></button>
-		<button id="queue_list" class="btn"><i class="icon-road"></i></button>
-    </li>
-    </ul>
-  	
+	<div id="paying" class="well">
+   
+	</div>
+	<h3 style="padding:5px;"><i class="icon-refresh"></i> Music queue</h3>
+  	<table id="muqueue" class="well table table-striped">
+
+    </table>
 </div>
 
 <div class="span8">
@@ -57,7 +57,7 @@
 </div>
 
 
-<script src="http://colabzik.fake:8066/socket.io/socket.io.js"></script>
+<script src="/socket.io/socket.io.js"></script>
 <script src="/js/script.js"></script>
 
   </body>

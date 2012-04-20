@@ -55,3 +55,8 @@ dospotify.on('play_done',
 function(e) {
     musicqueue.playNext();
 });
+
+musicqueue.on('added',
+function(e) {
+    io.sockets.emit('queue_add', e);
+});

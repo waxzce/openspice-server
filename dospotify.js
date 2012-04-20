@@ -13,7 +13,11 @@ var p = Dospotify.prototype = Object.create( EventEmitter.prototype );
 
 
 p.play = function(t) {
-    this.socket.emit('playmusic_order', t);
+	try{
+    	this.socket.emit('playmusic_order', t);
+	}catch (e){
+		console.log(e);
+	}
 	this.emit('play', t);
 	var timeoutId = setTimeout(this.emit.bind(this,'play_done', t), Math.round(t.length)*1000); // 1 hour
 };
