@@ -20,7 +20,6 @@ p.play = function(t) {
     }
     this.emit('play', t);
     var timeoutId = setTimeout(this.emit.bind(this, 'play_done', t), Math.round(t.length) * 1000);
-    // 1 hour
 };
 
 
