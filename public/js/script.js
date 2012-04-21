@@ -21,6 +21,8 @@ var OpenSpice = (function() {
 
         album: _.template('<tr><td><i class="icon-book"></i></td><td><%= name %></td><td><%= year %></td></tr>'),
 
+        currentlyPlaying: _.template('<h5><%= name %></h5><p><%= artists %></p>'),
+
         trackInQueue: _.template('<li class="playlist_fellows"><i class="icon-music"></i><strong><%= name %></strong> - <%= artists %></li>')
     };
 
@@ -41,12 +43,19 @@ var OpenSpice = (function() {
     p.fetchCurrentTrack = function() {
         $.ajax({
             url: "/api/playing",
-        }).done(function(t) {
-            if (t.name != undefined) {
-                $('#playing').html('<h5>' + t.name + '</h5><p>' + t.artists[0].name + '</p>');
-            }
-        });
+        }).done(this.displayCurrentTrack);
     };
+    p.displayCurrentTrack = function(t) {
+        console.log(t);
+        if (!_.isEmpty(t)) {
+            $('#playing').html(OpenSpice.templates.currentlyPlaying({
+                name: t.name,
+                artists: _.pluck(t.artists, 'name').join(', ')
+            }));
+        }
+    };
+
+
 
     p.updateDisplayedQueue = function(added) {
         if (_.isArray(added)) {
@@ -63,10 +72,6 @@ var OpenSpice = (function() {
                 artists: _.pluck(added.artists, 'name').join(', ')
             }));
         }
-    };
-
-    p.updateDisplayedCurrentTrack = function(track) {
-        $('#playing').html('<h5>' + track.name + '</h5><p>' + track.artists[0].name + '</p>');
     };
 
     p.updateRecentQueries = function(newQuery) {
@@ -242,8 +247,8 @@ var OpenSpice = (function() {
         });
     };
 
-    
-	return new Op();
+
+    return new Op();
 })();
 
 $(function() {
@@ -253,7 +258,7 @@ $(function() {
     OpenSpice.fetchCurrentTrack();
 
     // Register socket events
-    OpenSpice.socket.on('play', OpenSpice.updateDisplayedCurrentTrack);
+    OpenSpice.socket.on('play', OpenSpice.displayCurrentTrack);
     OpenSpice.socket.on('queue_add', OpenSpice.updateDisplayedQueue);
     OpenSpice.socket.on('queue_next_a',
     function(t) {

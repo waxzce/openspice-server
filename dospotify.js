@@ -18,7 +18,6 @@ p.play = function(t) {
     } catch(e) {
         console.log(e);
     }
-    this.emit('play', t);
     var timeoutId = setTimeout(this.emit.bind(this, 'play_done', t), Math.round(t.length) * 1000);
 };
 
@@ -48,8 +47,11 @@ p.init = function(io_p) {
     function(socket_p) {
         this.socket = socket_p;
         this.emit('connected');
+        this.socket.on('playing',
+        function(t) {
+            this.emit('play', t);
+        }.bind(this));
     }.bind(this));
-
 
     return this;
 };
