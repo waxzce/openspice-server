@@ -51,10 +51,13 @@ $(function() {
 
 });
 
-var searchfor = function(qq, pagenum) {
-    var trackRowTemplate = _.template(
-    '<tr><td><i class="icon-music"></i></td><td><%= name %></td><td><%= artists %></td><td><%= album%></td><td><button class="btn fnct_plus <%= disabled%>"><i class="icon-plus"></i></button></td></tr>');
+var trackInSearchTemplate = _.template('<tr><td><i class="icon-music"></i></td><td><%= name %></td><td><%= artists %></td><td><%= album%></td><td><button class="btn fnct_plus <%= disabled%>"><i class="icon-plus"></i></button></td></tr>');
 
+var trackInAlbumTemplate = _.template('<tr><td><i class="icon-music"></i></td><td><%= number %></td><td><%= name %></td><td><%= artists %></td><td><button class="btn fnct_plus <%= disabled%>"><i class="icon-plus"></i></button></td></tr>');
+
+var albumTemplate = _.template('<tr><td><i class="icon-music"></i></td><td><%= name %></td><td><%= year %></td></tr>');
+
+var searchfor = function(qq, pagenum) {
     var pagenum = (typeof pagenum == "undefined" ? 1: pagenum);
 
     $('#result').empty();
@@ -111,7 +114,7 @@ var searchfor = function(qq, pagenum) {
 
         _.each(data.tracks,
         function(t, i) {
-            $(trackRowTemplate({
+            $(trackInSearchTemplate({
                 name: t.name,
                 artists: _.map(t.artists, function(a) {
                     return '<a href="#" data-spuri="'+ a.href +'" class="artist">'+ a.name +'</a>';
@@ -150,10 +153,18 @@ var showAlbum = function(albumURI) {
     $('#result').empty();
     $('.pagination').empty();
     $('h3').text("Chargement");
-    performLookup(albumURI, ['track'], function(data) {
+    performLookup(albumURI, ['trackdetail'], function(data) {
         $('h3').text(data.album.artist +' - '+ data.album.name);
-        var trackList = _.each(data.album.tracks, function(t) {
-            $('<tr><td>'+ t.name  +'</td></tr>').data('trackdata', t).appendTo('#result');
+        var disabled = !_.include(data.album.availability.territories.split(" "), options.country) ? ' disabled' : '';
+        _.each(data.album.tracks, function(t) {
+            $(trackInAlbumTemplate({
+                number: t['track-number'],
+                name: t.name,
+                artists: _.map(t.artists, function(a) {
+                    return '<a href="#" data-spuri="'+ a.href +'" class="artist">'+ a.name +'</a>';
+                }).join(", "),
+                disabled: disabled
+            })).data('trackdata', t).appendTo('#result');
         });
     });
     $('#result').before('<button class="btn btn-success add-all"><i class="icon-plus icon-white"></i>Add everything</button>');
@@ -162,6 +173,9 @@ var showAlbum = function(albumURI) {
             socket.emit('add_queue', $(row).data('trackdata'));
         });
     });
+    $('#result button.fnct_plus:not(.disabled)').click(function(e) {
+        socket.emit('add_queue', $(e.target).parents('tr').data('trackdata'));
+    });
 
 };
 
@@ -169,10 +183,14 @@ var showArtist = function(artistURI) {
     $('#result').empty();
     $('.pagination').empty();
     $('h3').text("Chargement");
-    performLookup(artistURI, ['album'], function(data) {
+    performLookup(artistURI, ['albumdetail'], function(data) {
         $('h3').text(data.artist.name);
-        var albumList = _.map(data.artist.albums, function(a) { return '<tr><td>' + a.album.name + '</td></tr>';});
-        $(albumList.join("")).appendTo('#result');
+        _.each(data.artist.albums, function(a) {
+            $(albumTemplate({
+                name: a.album.name,
+                year: a.album.released
+            })).data('albumdata', a).appendTo('#result');
+        });
     });
 };
 
