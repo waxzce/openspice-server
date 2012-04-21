@@ -36,6 +36,14 @@ function(req, res) {
     res.send(JSON.stringify(cu_play));
 });
 
+app.get('/api/country',
+function(req, res) {
+    res.contentType('application/json');
+    res.send(JSON.stringify({
+        'country': dospotify.getCountry()
+    }));
+});
+
 io.sockets.on('connection',
 function(socket) {
 
@@ -44,11 +52,11 @@ function(socket) {
         musicqueue.add(data);
     });
 
-	socket.on('ask_volume_up',
+    socket.on('ask_volume_up',
     function(data) {
         musicqueue.add(data);
     });
-	socket.on('ask_volume_down',
+    socket.on('ask_volume_down',
     function(data) {
         musicqueue.add(data);
     });

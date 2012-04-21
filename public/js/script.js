@@ -45,8 +45,17 @@ var OpenSpice = (function() {
             url: "/api/playing",
         }).done(this.displayCurrentTrack);
     };
+
+    p.fetchCountry = function() {
+        $.ajax({
+            url: "/api/country",
+        }).done(_.bind(function(d) {
+            this.options.country = d.country;
+        },
+        this));
+    };
+
     p.displayCurrentTrack = function(t) {
-        console.log(t);
         if (!_.isEmpty(t)) {
             $('#playing').html(OpenSpice.templates.currentlyPlaying({
                 name: t.name,
@@ -256,6 +265,7 @@ $(function() {
     // Init navbar
     OpenSpice.fetchQueue();
     OpenSpice.fetchCurrentTrack();
+    OpenSpice.fetchCountry();
 
     // Register socket events
     OpenSpice.socket.on('play', OpenSpice.displayCurrentTrack);

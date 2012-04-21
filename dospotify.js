@@ -6,11 +6,15 @@ var Dospotify = function() {
     EventEmitter.call(this);
     this.io = null;
     this.socket = null;
+	this.country = 'US';
     return this;
 }
 
 var p = Dospotify.prototype = Object.create(EventEmitter.prototype);
 
+p.getCountry = function(){
+	return this.country;
+}
 
 p.play = function(t) {
     try {
@@ -50,6 +54,10 @@ p.init = function(io_p) {
         this.socket.on('playing',
         function(t) {
             this.emit('play', t);
+        }.bind(this));
+		this.socket.on('country',
+        function(c) {
+            this.country = c;
         }.bind(this));
     }.bind(this));
 
