@@ -198,9 +198,14 @@ var showArtist = function(artistURI) {
         $('h3').text(data.artist.name);
         _.each(data.artist.albums, function(a) {
             $(albumTemplate({
-                name: a.album.name,
+                name: '<a href="#" data-spuri="'+a.album.href+'" class="album">'+a.album.name+'</a>',
                 year: a.album.released
             })).data('albumdata', a).appendTo('#result');
+        });
+
+        $('#result a.album').click(function(e) {
+            showAlbum($(e.target).attr("data-spuri"));
+            return false;
         });
     });
 };
