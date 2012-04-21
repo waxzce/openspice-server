@@ -1,28 +1,24 @@
-var socket = io.connect(window.location);
+var OpenSpice = {};
 
-var options = {
-    country: "FR"
-};
+OpenSpice.socket = io.connect(window.location);
 
+OpenSpice.options = { country: "FR" };
 
-$(function() {
-
-
+OpenSpice.fetchQueue = function() {
     $.ajax({
         url: "/api/queue",
     }).done(function(data) {
         _.each(data,
         function(t, i) {
-            //			$('#result').append('<tr data-spurl="'+t.href+'"><td>    <i class="icon-music"></i></td><td>'+t.name+'</td><td>'+t.artists[0].name+'</td></tr>');
-            $('#mainmenu').append('<li class="playlist_fellows"><i class="icon-music"></i><strong>' + t.name + '</strong> - ' + t.artists[0].name + '</li>');
+            $('#mainmenu').append(OpenSpice.templates.trackInQueue({
+                name: t.name,
+                artists: _.pluck(t.artists, 'name').join(', ')
+            }));
         });
     });
+};
 
-
-    $('#nextmusic').click(_.bind(function() {
-        socket.emit('nextmusic_request', {});
-    },
-    this));
+OpenSpice.fetchCurrentTrack = function() {
     $.ajax({
         url: "/api/playing",
     }).done(function(t) {
@@ -30,46 +26,57 @@ $(function() {
             $('#playing').html('<h5>' + t.name + '</h5><p>' + t.artists[0].name + '</p>');
         }
     });
-    socket.on('play',
-    function(t) {
-        $('#playing').html('<h5>' + t.name + '</h5><p>' + t.artists[0].name + '</p>');
-    });
+};
+
+OpenSpice.updateDisplayedQueue = function(added) {
+    if (_.isArray(added)) {
+        _.each(added,
+        function(track) {
+            $('#mainmenu').append(OpenSpice.templates.trackInQueue({
+                name: track.name,
+                artists: _.pluck(track.artists, 'name').join(', ')
+            }));
+        });
+    } else {
+        $('#mainmenu').append(OpenSpice.templates.trackInQueue({
+            name: added.name,
+            artists: _.pluck(added.artists, 'name').join(', ')
+        }));
+    }
+};
+
+OpenSpice.updateDisplayedCurrentTrack = function(track) {
+    $('#playing').html('<h5>' + track.name + '</h5><p>' + track.artists[0].name + '</p>');
+};
+
+OpenSpice.updateRecentQueries = function(newQuery) {
+    $('<li class="recentqueryitem">' + newQuery + '</li>').click(function(e) {
+        OpenSpice.performSearch($(e.target).text());
+    }).insertAfter('#recent_query');
+    $('li.recentqueryitem:gt(5)').remove();
+};
 
 
+OpenSpice.templates = {
+    trackInSearch: _.template('<tr><td><i class="icon-music"></i></td><td><%= name %></td><td><%= artists %></td><td><%= album%></td><td><button class="btn fnct_plus <%= disabled%>"><i class="icon-plus"></i></button></td></tr>'),
 
+    trackInAlbum:  _.template('<tr><td><i class="icon-music"></i></td><td><%= number %></td><td><%= name %></td><td><%= artists %></td><td><button class="btn fnct_plus <%= disabled%>"><i class="icon-plus"></i></button></td></tr>'),
 
-    socket.on('queue_add',
-    function(t) {
-        if (_.isArray(t)) {
-            _.each(t,
-            function(tt) {
-                $('#mainmenu').append('<li class="playlist_fellows"><i class="icon-music"></i><strong>' + tt.name + '</strong> - ' + tt.artists[0].name + '</li>');
-            });
-        } else {
-            $('#mainmenu').append('<li class="playlist_fellows"><i class="icon-music"></i><strong>' + t.name + '</strong> - ' + t.artists[0].name + '</li>');
-        }
-    });
+    album: _.template('<tr><td><i class="icon-book"></i></td><td><%= name %></td><td><%= year %></td></tr>'),
 
-    socket.on('queue_next_a',
-    function(t) {
-        $('#mainmenu li.playlist_fellows:first').remove();
-    });
+    trackInQueue: _.template('<li class="playlist_fellows"><i class="icon-music"></i><strong><%= name %></strong> - <%= artists %></li>')
+};
 
-
-});
-
-var trackInSearchTemplate = _.template('<tr><td><i class="icon-music"></i></td><td><%= name %></td><td><%= artists %></td><td><%= album%></td><td><button class="btn fnct_plus <%= disabled%>"><i class="icon-plus"></i></button></td></tr>');
-
-var trackInAlbumTemplate = _.template('<tr><td><i class="icon-music"></i></td><td><%= number %></td><td><%= name %></td><td><%= artists %></td><td><button class="btn fnct_plus <%= disabled%>"><i class="icon-plus"></i></button></td></tr>');
-
-var albumTemplate = _.template('<tr><td><i class="icon-book"></i></td><td><%= name %></td><td><%= year %></td></tr>');
-
-var searchfor = function(qq, pagenum) {
-    var pagenum = (typeof pagenum == "undefined" ? 1: pagenum);
-
+OpenSpice.clearSearchArea = function() {
     $('#result').empty();
     $('.pagination').empty();
     $('.controls').empty();
+};
+
+OpenSpice.performSearch = function(qq, pagenum) {
+    var pagenum = (typeof pagenum == "undefined" ? 1: pagenum);
+
+    OpenSpice.clearSearchArea();
     $('h3').text(qq);
     $.ajax({
         url: "http://ws.spotify.com/search/1/track.json",
@@ -87,7 +94,7 @@ var searchfor = function(qq, pagenum) {
         if (di.num_results > di.limit) {
             if (di.page > 1) {
                 $('<li><a href="#"><i class="icon-arrow-left"></i></a></li>')
-                .click(_.bind(searchfor, this, di.query, di.page - 1))
+                .click(_.bind(OpenSpice.performSearch, this, di.query, di.page - 1))
                 .appendTo('.pagination');
             }
             var maxpages = Math.ceil(di.num_results / di.limit);
@@ -95,13 +102,13 @@ var searchfor = function(qq, pagenum) {
             var pageid = (brokepagination ? (di.page > 4 ? di.page - 2: 1) : 1);
             if (pageid > 1) {
                 $('<li><a href="#">1</a></li>')
-                .click(_.bind(searchfor, this, di.query, 1))
+                .click(_.bind(OpenSpice.performSearch, this, di.query, 1))
                 .appendTo('.pagination');
                 $('<li><a class=".disabled" href="#">...</a></li>').appendTo('.pagination');
             }
             for (var i = 0; (i < 6 && pageid <= maxpages); i++) {
                 $('<li' + (pageid == di.page ? ' class="active"': '') + '><a href="#">' + pageid + '</a></li>')
-                .click(_.bind(searchfor, this, di.query, pageid))
+                .click(_.bind(OpenSpice.performSearch, this, di.query, pageid))
                 .appendTo('.pagination');
                 pageid++;
             }
@@ -110,44 +117,45 @@ var searchfor = function(qq, pagenum) {
             }
             if (pageid <= maxpages) {
                 $('<li><a href="#">' + maxpages + '</a></li>')
-                .click(_.bind(searchfor, this, di.query, maxpages))
+                .click(_.bind(OpenSpice.performSearch, this, di.query, maxpages))
                 .appendTo('.pagination');
             }
             if (di.page < maxpages) {
                 $('<li><a href="#"><i class="icon-arrow-right"></i></a></li>')
-                .click(_.bind(searchfor, this, di.query, di.page + 1))
+                .click(_.bind(OpenSpice.performSearch, this, di.query, di.page + 1))
                 .appendTo('.pagination');
             }
         }
 
+        $('<tr><td></td><th>Name</th><th>Artist</th><th>Album</th><td></td></tr>').appendTo('#result');
         _.each(data.tracks,
         function(t, i) {
-            $(trackInSearchTemplate({
+            $(OpenSpice.templates.trackInSearch({
                 name: t.name,
                 artists: _.map(t.artists,
                 function(a) {
                     return '<a href="#" data-spuri="' + a.href + '" class="artist">' + a.name + '</a>';
                 }).join(", "),
                 album: '<a href="#" data-spuri="' + t.album.href + '" class="album">' + t.album.name + '</a>',
-                disabled: (!_.include(t.album.availability.territories.split(" "), options.country) ? "disabled": "")
+                disabled: (!_.include(t.album.availability.territories.split(" "), OpenSpice.options.country) ? "disabled": "")
             })).data('trackdata', t).appendTo('#result');
         });
         $('#result button.fnct_plus:not(.disabled)').click(function(e) {
-            socket.emit('add_queue', $(e.target).parents('tr').data('trackdata'));
+            OpenSpice.socket.emit('add_queue', $(e.target).parents('tr').data('trackdata'));
         });
         $('#result a.album').click(function(e) {
-            showAlbum($(e.target).attr("data-spuri"));
+            OpenSpice.showAlbum($(e.target).attr("data-spuri"));
             return false;
         });
         $('#result a.artist').click(function(e) {
-            showArtist($(e.target).attr("data-spuri"));
+            OpenSpice.showArtist($(e.target).attr("data-spuri"));
             return false;
         });
 
     });
 };
 
-var performLookup = function(uri, extras, callback) {
+OpenSpice.performLookup = function(uri, extras, callback) {
     $.ajax({
         url: "http://ws.spotify.com/lookup/1/.json",
         data: {
@@ -158,18 +166,17 @@ var performLookup = function(uri, extras, callback) {
     }).done(callback);
 };
 
-var showAlbum = function(albumURI) {
-    $('#result').empty();
-    $('.pagination').empty();
-    $('.controls').empty();
+OpenSpice.showAlbum = function(albumURI) {
+    OpenSpice.clearSearchArea();
     $('h3').text("Chargement");
-    performLookup(albumURI, ['trackdetail'],
+    OpenSpice.performLookup(albumURI, ['trackdetail'],
     function(data) {
         $('h3').text(data.album.artist + ' - ' + data.album.name);
-        var disabled = !_.include(data.album.availability.territories.split(" "), options.country) ? ' disabled': '';
+        var disabled = !_.include(data.album.availability.territories.split(" "), OpenSpice.options.country) ? ' disabled': '';
+        $('<tr><td></td><th>#</th><th>Name</th><th>Artist</th><td></td></tr>').appendTo('#result');
         _.each(data.album.tracks,
         function(t) {
-            $(trackInAlbumTemplate({
+            $(OpenSpice.templates.trackInAlbum({
                 number: t['track-number'],
                 name: t.name,
                 artists: _.map(t.artists,
@@ -183,43 +190,41 @@ var showAlbum = function(albumURI) {
         $('<button class="btn btn-success add-all"><i class="icon-plus icon-white"></i>Add everything</button>').appendTo('.controls');
 
         $('.add-all').click(function(e) {
-            socket.emit('add_queue', _.map($('#result tr'),
+            OpenSpice.socket.emit('add_queue', _.map($('#result tr+tr'),
             function(row) {
                 return $(row).data('trackdata');
             }));;
         });
 
         $('#result button.fnct_plus:not(.disabled)').click(function(e) {
-            socket.emit('add_queue', $(e.target).parents('tr').data('trackdata'));
+            OpenSpice.socket.emit('add_queue', $(e.target).parents('tr').data('trackdata'));
         });
 
         $('#result a.artist').click(function(e) {
-            showArtist($(e.target).attr("data-spuri"));
+            OpenSpice.showArtist($(e.target).attr("data-spuri"));
             return false;
         });
     });
 
 };
 
-var showArtist = function(artistURI) {
-    $('#result').empty();
-    $('.pagination').empty();
-    $('.controls').empty();
+OpenSpice.showArtist = function(artistURI) {
+    OpenSpice.clearSearchArea();
     $('h3').text("Chargement");
-    performLookup(artistURI, ['albumdetail'],
+    OpenSpice.performLookup(artistURI, ['albumdetail'],
     function(data) {
         $('h3').text(data.artist.name);
         _.each(data.artist.albums,
         function(a) {
-			var disabled = !_.include(a.album.availability.territories.split(" "), options.country) ? true : false;
-            $(albumTemplate({
+            var disabled = !_.include(a.album.availability.territories.split(" "), OpenSpice.options.country) ? true : false;
+            $(OpenSpice.templates.album({
                 name: (disabled ?  a.album.name : '<a href="#" class="album">' + a.album.name + '</a>'),
                 year: a.album.released
             })).data('albumdata', a).appendTo('#result');
         });
 
         $('#result a.album').click(function(e) {
-            showAlbum($(e.target).parents('tr').data("albumdata").album.href);
+            OpenSpice.showAlbum($(e.target).parents('tr').data("albumdata").album.href);
             return false;
         });
     });
@@ -227,16 +232,24 @@ var showArtist = function(artistURI) {
 
 $(function() {
 
+    // Init navbar
+    OpenSpice.fetchQueue();
+    OpenSpice.fetchCurrentTrack();
+
+    // Register socket events
+    OpenSpice.socket.on('play', OpenSpice.updateDisplayedCurrentTrack);
+    OpenSpice.socket.on('queue_add', OpenSpice.updateDisplayedQueue);
+    OpenSpice.socket.on('queue_next_a', function(t) { $('#mainmenu li.playlist_fellows:first').remove(); });
+
+    // Register UI events
     $('#search_track a').click(function(e) {
         $('#search_track').submit();
     });
 
     $('#search_track').submit(function(e) {
+        var query = $('#search_track input').val();
         e.preventDefault();
-        searchfor($('#search_track input').val());
-        $('<li class="recentqueuryitem">' + $('#search_track input').val() + '</li>').click(function(e) {
-            searchfor($(e.target).parent('li').text());
-        }).insertAfter('#recent_query');
-        $('li.recentqueuryitem:gt(5)').remove();
+        OpenSpice.performSearch(query);
+        OpenSpice.updateRecentQueries(query);
     });
 });
