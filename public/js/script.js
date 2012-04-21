@@ -127,6 +127,7 @@ OpenSpice.performSearch = function(qq, pagenum) {
             }
         }
 
+        $('<tr><td></td><th>Name</th><th>Artist</th><th>Album</th><td></td></tr>').appendTo('#result');
         _.each(data.tracks,
         function(t, i) {
             $(OpenSpice.templates.trackInSearch({
@@ -172,6 +173,7 @@ OpenSpice.showAlbum = function(albumURI) {
     function(data) {
         $('h3').text(data.album.artist + ' - ' + data.album.name);
         var disabled = !_.include(data.album.availability.territories.split(" "), OpenSpice.options.country) ? ' disabled': '';
+        $('<tr><td></td><th>#</th><th>Name</th><th>Artist</th><td></td></tr>').appendTo('#result');
         _.each(data.album.tracks,
         function(t) {
             $(OpenSpice.templates.trackInAlbum({
