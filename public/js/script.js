@@ -234,9 +234,9 @@ $(function() {
     $('#search_track').submit(function(e) {
         e.preventDefault();
         searchfor($('#search_track input').val());
-        $('<li class="recentqueuryitem">' + $('#search_track input').val() + '</li>').click(function(e) {
-            searchfor($(e.target).parent('li').text());
+        $('<li class="recentqueryitem">' + $('#search_track input').val() + '</li>').click(function(e) {
+            searchfor($(e.target).text());
         }).insertAfter('#recent_query');
-        $('li.recentqueuryitem:gt(5)').remove();
+        $('li.recentqueryitem:gt(5)').remove();
     });
 });
