@@ -22,6 +22,22 @@ p.play = function(t) {
     var timeoutId = setTimeout(this.emit.bind(this, 'play_done', t), Math.round(t.length) * 1000);
 };
 
+p.volumeUP = function(t) {
+    try {
+        this.socket.emit('volume_up');
+    } catch(e) {
+        console.log(e);
+    }
+};
+
+p.volumeDOWN = function(t) {
+    try {
+        this.socket.emit('volume_down');
+    } catch(e) {
+        console.log(e);
+    }
+};
+
 
 p.init = function(io_p) {
     this.io = io_p;

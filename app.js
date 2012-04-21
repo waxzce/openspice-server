@@ -43,6 +43,16 @@ function(socket) {
     function(data) {
         musicqueue.add(data);
     });
+
+	socket.on('ask_volume_up',
+    function(data) {
+        musicqueue.add(data);
+    });
+	socket.on('ask_volume_down',
+    function(data) {
+        musicqueue.add(data);
+    });
+
     /*
     socket.on('nextmusic_request',
     function(data) {
