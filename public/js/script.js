@@ -62,6 +62,7 @@ var searchfor = function(qq, pagenum) {
 
     $('#result').empty();
     $('.pagination').empty();
+    $('.controls').empty();
     $('h3').text(qq);
     $.ajax({
         url: "http://ws.spotify.com/search/1/track.json",
@@ -152,6 +153,7 @@ var performLookup = function(uri, extras, callback) {
 var showAlbum = function(albumURI) {
     $('#result').empty();
     $('.pagination').empty();
+    $('.controls').empty();
     $('h3').text("Chargement");
     performLookup(albumURI, ['trackdetail'], function(data) {
         $('h3').text(data.album.artist +' - '+ data.album.name);
@@ -167,7 +169,7 @@ var showAlbum = function(albumURI) {
             })).data('trackdata', t).appendTo('#result');
         });
     });
-    $('#result').before('<button class="btn btn-success add-all"><i class="icon-plus icon-white"></i>Add everything</button>');
+    $('<button class="btn btn-success add-all"><i class="icon-plus icon-white"></i>Add everything</button>').appendTo('.controls');
     $('.add-all').click(function(e) {
         _.each($('#result tr'), function(row) {
             socket.emit('add_queue', $(row).data('trackdata'));
@@ -182,6 +184,7 @@ var showAlbum = function(albumURI) {
 var showArtist = function(artistURI) {
     $('#result').empty();
     $('.pagination').empty();
+    $('.controls').empty();
     $('h3').text("Chargement");
     performLookup(artistURI, ['albumdetail'], function(data) {
         $('h3').text(data.artist.name);
