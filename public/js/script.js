@@ -190,7 +190,7 @@ OpenSpice.showAlbum = function(albumURI) {
         $('<button class="btn btn-success add-all"><i class="icon-plus icon-white"></i>Add everything</button>').appendTo('.controls');
 
         $('.add-all').click(function(e) {
-            OpenSpice.socket.emit('add_queue', _.map($('#result tr'),
+            OpenSpice.socket.emit('add_queue', _.map($('#result tr+tr'),
             function(row) {
                 return $(row).data('trackdata');
             }));;
