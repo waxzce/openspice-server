@@ -168,15 +168,18 @@ var showAlbum = function(albumURI) {
                 disabled: disabled
             })).data('trackdata', t).appendTo('#result');
         });
-    });
-    $('<button class="btn btn-success add-all"><i class="icon-plus icon-white"></i>Add everything</button>').appendTo('.controls');
-    $('.add-all').click(function(e) {
-        _.each($('#result tr'), function(row) {
-            socket.emit('add_queue', $(row).data('trackdata'));
+
+        $('<button class="btn btn-success add-all"><i class="icon-plus icon-white"></i>Add everything</button>').appendTo('.controls');
+
+        $('.add-all').click(function(e) {
+            _.each($('#result tr'), function(row) {
+                socket.emit('add_queue', $(row).data('trackdata'));
+            });
         });
-    });
-    $('#result button.fnct_plus:not(.disabled)').click(function(e) {
-        socket.emit('add_queue', $(e.target).parents('tr').data('trackdata'));
+
+        $('#result button.fnct_plus:not(.disabled)').click(function(e) {
+            socket.emit('add_queue', $(e.target).parents('tr').data('trackdata'));
+        });
     });
 
 };
