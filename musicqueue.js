@@ -12,7 +12,13 @@ var p = Mu.prototype = Object.create(EventEmitter.prototype);
 
 
 p.add = function(t) {
-    this.queue.push(t);
+	if(Array.isArray(t)){
+		for(var i in t){
+			this.queue.push(t[i]);
+		}
+	}else{
+		this.queue.push(t);
+	}
     if (this.queue.length == 1) {
         this.dospotify.play(this.queue[0]);
     }

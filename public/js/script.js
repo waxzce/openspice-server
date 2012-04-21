@@ -40,7 +40,14 @@ $(function() {
 
     socket.on('queue_add',
     function(t) {
-        $('#mainmenu').append('<li class="playlist_fellows"><i class="icon-music"></i><strong>' + t.name + '</strong> - ' + t.artists[0].name + '</li>');
+        if (_.isArray(t)) {
+            _.each(t,
+            function(tt) {
+                $('#mainmenu').append('<li class="playlist_fellows"><i class="icon-music"></i><strong>' + tt.name + '</strong> - ' + tt.artists[0].name + '</li>');
+            });
+        } else {
+            $('#mainmenu').append('<li class="playlist_fellows"><i class="icon-music"></i><strong>' + t.name + '</strong> - ' + t.artists[0].name + '</li>');
+        }
     });
 
     socket.on('queue_next_a',
@@ -55,7 +62,7 @@ var trackInSearchTemplate = _.template('<tr><td><i class="icon-music"></i></td><
 
 var trackInAlbumTemplate = _.template('<tr><td><i class="icon-music"></i></td><td><%= number %></td><td><%= name %></td><td><%= artists %></td><td><button class="btn fnct_plus <%= disabled%>"><i class="icon-plus"></i></button></td></tr>');
 
-var albumTemplate = _.template('<tr><td><i class="icon-music"></i></td><td><%= name %></td><td><%= year %></td></tr>');
+var albumTemplate = _.template('<tr><td><i class="icon-book"></i></td><td><%= name %></td><td><%= year %></td></tr>');
 
 var searchfor = function(qq, pagenum) {
     var pagenum = (typeof pagenum == "undefined" ? 1: pagenum);
@@ -117,8 +124,9 @@ var searchfor = function(qq, pagenum) {
         function(t, i) {
             $(trackInSearchTemplate({
                 name: t.name,
-                artists: _.map(t.artists, function(a) {
-                    return '<a href="#" data-spuri="'+ a.href +'" class="artist">'+ a.name +'</a>';
+                artists: _.map(t.artists,
+                function(a) {
+                    return '<a href="#" data-spuri="' + a.href + '" class="artist">' + a.name + '</a>';
                 }).join(", "),
                 album: '<a href="#" data-spuri="' + t.album.href + '" class="album">' + t.album.name + '</a>',
                 disabled: (!_.include(t.album.availability.territories.split(" "), options.country) ? "disabled": "")
@@ -155,15 +163,18 @@ var showAlbum = function(albumURI) {
     $('.pagination').empty();
     $('.controls').empty();
     $('h3').text("Chargement");
-    performLookup(albumURI, ['trackdetail'], function(data) {
-        $('h3').text(data.album.artist +' - '+ data.album.name);
-        var disabled = !_.include(data.album.availability.territories.split(" "), options.country) ? ' disabled' : '';
-        _.each(data.album.tracks, function(t) {
+    performLookup(albumURI, ['trackdetail'],
+    function(data) {
+        $('h3').text(data.album.artist + ' - ' + data.album.name);
+        var disabled = !_.include(data.album.availability.territories.split(" "), options.country) ? ' disabled': '';
+        _.each(data.album.tracks,
+        function(t) {
             $(trackInAlbumTemplate({
                 number: t['track-number'],
                 name: t.name,
-                artists: _.map(t.artists, function(a) {
-                    return '<a href="#" data-spuri="'+ a.href +'" class="artist">'+ a.name +'</a>';
+                artists: _.map(t.artists,
+                function(a) {
+                    return '<a href="#" data-spuri="' + a.href + '" class="artist">' + a.name + '</a>';
                 }).join(", "),
                 disabled: disabled
             })).data('trackdata', t).appendTo('#result');
@@ -172,9 +183,10 @@ var showAlbum = function(albumURI) {
         $('<button class="btn btn-success add-all"><i class="icon-plus icon-white"></i>Add everything</button>').appendTo('.controls');
 
         $('.add-all').click(function(e) {
-            _.each($('#result tr'), function(row) {
-                socket.emit('add_queue', $(row).data('trackdata'));
-            });
+            socket.emit('add_queue', _.map($('#result tr'),
+            function(row) {
+                return $(row).data('trackdata');
+            }));;
         });
 
         $('#result button.fnct_plus:not(.disabled)').click(function(e) {
@@ -194,17 +206,20 @@ var showArtist = function(artistURI) {
     $('.pagination').empty();
     $('.controls').empty();
     $('h3').text("Chargement");
-    performLookup(artistURI, ['albumdetail'], function(data) {
+    performLookup(artistURI, ['albumdetail'],
+    function(data) {
         $('h3').text(data.artist.name);
-        _.each(data.artist.albums, function(a) {
+        _.each(data.artist.albums,
+        function(a) {
+			var disabled = !_.include(a.album.availability.territories.split(" "), options.country) ? true : false;
             $(albumTemplate({
-                name: '<a href="#" data-spuri="'+a.album.href+'" class="album">'+a.album.name+'</a>',
+                name: (disabled ?  a.album.name : '<a href="#" class="album">' + a.album.name + '</a>'),
                 year: a.album.released
             })).data('albumdata', a).appendTo('#result');
         });
 
         $('#result a.album').click(function(e) {
-            showAlbum($(e.target).attr("data-spuri"));
+            showAlbum($(e.target).parents('tr').data("albumdata").album.href);
             return false;
         });
     });
