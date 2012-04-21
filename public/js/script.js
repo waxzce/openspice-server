@@ -180,6 +180,11 @@ var showAlbum = function(albumURI) {
         $('#result button.fnct_plus:not(.disabled)').click(function(e) {
             socket.emit('add_queue', $(e.target).parents('tr').data('trackdata'));
         });
+
+        $('#result a.artist').click(function(e) {
+            showArtist($(e.target).attr("data-spuri"));
+            return false;
+        });
     });
 
 };
