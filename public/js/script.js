@@ -163,7 +163,7 @@ var OpenSpice = (function() {
                         return '<a href="#" data-spuri="' + a.href + '" class="artist">' + a.name + '</a>';
                     }).join(", "),
                     album: '<a href="#" data-spuri="' + t.album.href + '" class="album">' + t.album.name + '</a>',
-                    disabled: (!_.include(t.album.availability.territories.split(" "), OpenSpice.options.country) ? "disabled": "")
+                    disabled: !OpenSpice.isAvailable(t.album) ? "disabled": ""
                 })).data('trackdata', t).appendTo('#result');
             });
             $('#result button.fnct_plus:not(.disabled)').click(function(e) {
@@ -198,7 +198,7 @@ var OpenSpice = (function() {
         OpenSpice.performLookup(albumURI, ['trackdetail'],
         function(data) {
             $('h3').text(data.album.artist + ' - ' + data.album.name);
-            var disabled = !_.include(data.album.availability.territories.split(" "), OpenSpice.options.country) ? ' disabled': '';
+            var disabled = !OpenSpice.isAvailable(data.album) ? "disabled": "";
             $('<tr><td></td><th>#</th><th>Name</th><th>Artist</th><td></td></tr>').appendTo('#result');
             _.each(data.album.tracks,
             function(t) {
@@ -242,7 +242,7 @@ var OpenSpice = (function() {
             $('h3').text(data.artist.name);
             _.each(data.artist.albums,
             function(a) {
-                var disabled = !_.include(a.album.availability.territories.split(" "), OpenSpice.options.country) ? true: false;
+                var disabled = !OpenSpice.isAvailable(a.album) ? true: false;
                 $(OpenSpice.templates.album({
                     name: (disabled ? a.album.name: '<a href="#" class="album">' + a.album.name + '</a>'),
                     year: a.album.released
@@ -254,6 +254,11 @@ var OpenSpice = (function() {
                 return false;
             });
         });
+    };
+
+    p.isAvailable = function(albumData) {
+        return albumData.availability.territories === "worldwide" ||
+               _.include(albumData.availability.territories.split(" "), OpenSpice.options.country);
     };
 
 
