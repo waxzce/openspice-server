@@ -264,6 +264,7 @@ var OpenSpice = (function() {
     p.manageTrackProgression = function(e) {
         if (!_.isEmpty(e)) {
             var elem = $('#playing_box .progress .bar');
+            elem.stop(true, true);
             elem.css({
                 'width': '0%',
                 '-webkit-transition': 'none',
