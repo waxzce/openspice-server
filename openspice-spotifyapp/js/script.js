@@ -12,6 +12,7 @@ $(function() {
         function(t) {
             models.player.play(t.href);
 			socket.emit('playing', t);
+			document.write('.');
         });
 
 

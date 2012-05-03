@@ -258,8 +258,26 @@ var OpenSpice = (function() {
 
     p.isAvailable = function(albumData) {
         return albumData.availability.territories === "worldwide" ||
-               _.include(albumData.availability.territories.split(" "), OpenSpice.options.country);
+        _.include(albumData.availability.territories.split(" "), OpenSpice.options.country);
     };
+
+    p.manageTrackProgression = function(e) {
+        if (!_.isEmpty(e)) {
+            var elem = $('#playing_box .progress .bar');
+            elem.css({
+                'width': '0%',
+                '-webkit-transition': 'none',
+                '-ms-transition': 'none',
+                '-moz-transition': 'none',
+                '-o-transition': 'none',
+                'transition': 'none'
+            });
+            elem.animate({
+                'width': '100%'
+            },
+            (e.length * 1000));
+        }
+    }
 
 
     return new Op();
@@ -274,6 +292,7 @@ $(function() {
 
     // Register socket events
     OpenSpice.socket.on('play', OpenSpice.displayCurrentTrack);
+    OpenSpice.socket.on('play', OpenSpice.manageTrackProgression);
     OpenSpice.socket.on('queue_add', OpenSpice.updateDisplayedQueue);
     OpenSpice.socket.on('queue_next_a',
     function(t) {
