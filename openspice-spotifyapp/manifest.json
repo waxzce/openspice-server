@@ -1,1 +1,26 @@
-{"RequiredPermissions": [ "http://*.spotify.com", "http://spotify.com", "http://colabzik.fake:8066/" ]}
+{
+    "BundleType": "Application",
+	"BundleVersion":"0.9",
+	"BundleIdentifier": "openspice",
+	"RequiredInterface":1,
+	"VendorIdentifier":"org.waxzce",
+    "AppIcon": 
+    {
+        "36x18": "icon.png"
+    },
+    "AppName": 
+    {
+        "en": "openspice"
+    },
+	"AppDescription": "openspice rocking app",
+    "SupportedLanguages": 
+    [
+        "en"
+    ],
+    "RequiredPermissions": 
+    [
+         "http://*.spotify.com",
+         "http://spotify.com",
+         "http://colabzik.fake:8066/" 
+    ]
+}
