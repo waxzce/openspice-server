@@ -1,12 +1,20 @@
-var app = require('express').createServer(),
-io = require('socket.io').listen(app),
-express = require('express'),
+var express = require('express'), 
+http = require('http'), 
+app = app = express(),
+server = http.createServer(app),
+io = require('socket.io').listen(server),
 dospotify = require('./dospotify.js').instance.init(io),
-musicqueue = require('./musicqueue.js').instance.init(dospotify);
+musicqueue = require('./musicqueue.js').instance.init(dospotify),
+masterpass = process.argv[2];
+
+console.log(process.argv);
 
 var cu_play = {};
 
-app.listen(8066);
+
+
+server.listen(8066);
+
 
 app.configure(function() {
     app.use(express.methodOverride());
@@ -54,19 +62,22 @@ function(socket) {
 
     socket.on('ask_volume_up',
     function(data) {
-        musicqueue.add(data);
+        dospotify.volumeUP();
     });
     socket.on('ask_volume_down',
     function(data) {
-        musicqueue.add(data);
+        dospotify.volumeDOWN();
     });
 
-    /*
-    socket.on('nextmusic_request',
+    
+    socket.on('require_flush',
     function(data) {
-        musicqueue.playNext();
+        if(data.pass == masterpass){
+            musicqueue.flushQueue();
+            io.sockets.emit('re_init');
+        }
     });
-*/
+
 });
 
 

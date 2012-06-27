@@ -43,8 +43,10 @@ $(function() {
 
         socket.on('volume_down',
         function(msg) {
+            console.log(models.player.volume > 0);
             if (models.player.volume > 0) {
-                models.player.volume = models.player.volume - 0.1;
+                models.player.volume = (models.player.volume - 0.1);
+                console.log(models.player.volume - 0.1);
             }
         });
 

@@ -40,6 +40,18 @@ var OpenSpice = (function() {
         });
     };
 
+    p.volumeUP = function() {
+        OpenSpice.socket.emit('ask_volume_up', {});
+    };
+
+    p.volumeDOWN = function() {
+        OpenSpice.socket.emit('ask_volume_down', {});
+    };
+
+     p.ask_flush = function(pass) {
+        OpenSpice.socket.emit('require_flush', {'pass':pass});
+    };
+
     p.fetchCurrentTrack = function() {
         $.ajax({
             url: "/api/playing",
@@ -300,9 +312,29 @@ $(function() {
         $('#mainmenu li.playlist_fellows:first').remove();
     });
 
+    OpenSpice.socket.on('re_init',
+    function() {
+        $('#mainmenu').empty();
+        OpenSpice.fetchQueue();
+        OpenSpice.fetchCurrentTrack();
+        OpenSpice.fetchCountry();
+    });
+
     // Register UI events
     $('#search_track a').click(function(e) {
         $('#search_track').submit();
+    });
+
+    $('#btn_volume_down').click(function(e) {
+        OpenSpice.volumeDOWN();
+    });
+
+    $('#btn_volume_up').click(function(e) {
+        OpenSpice.volumeUP();
+    });
+
+    $('#btn_flush_plz').click(function(e) {
+        OpenSpice.ask_flush(prompt('pass for flush ? '));
     });
 
     $('#search_track').submit(function(e) {

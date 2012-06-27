@@ -29,6 +29,10 @@ p.getQueue = function(t) {
     return this.queue;
 };
 
+p.flushQueue = function() {
+    return this.queue = [];
+};
+
 p.isEmpty = function(t) {
     return this.queue.length == 0;
 };
