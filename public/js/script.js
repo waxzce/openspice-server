@@ -337,6 +337,9 @@ $(function() {
         OpenSpice.ask_flush(prompt('pass for flush ? '));
     });
 
+// can be usefull : select * from xml where url='http://google.com/complete/search?output=toolbar&q=cool' and itemPath='//suggestion'
+
+
     $('#search_track').submit(function(e) {
         var query = $('#search_track input').val();
         e.preventDefault();
