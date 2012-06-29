@@ -338,6 +338,12 @@ $(function() {
     });
 
 // can be usefull : select * from xml where url='http://google.com/complete/search?output=toolbar&q=cool' and itemPath='//suggestion'
+    $('#search_track input').autocomplete('/api/complete', {
+        minChars: 3,
+        remoteDataType: 'json',
+        resultsClass: 'typeahead dropdown-menu',
+        useCache: false
+    });
 
 
     $('#search_track').submit(function(e) {
