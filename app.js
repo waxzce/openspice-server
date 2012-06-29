@@ -52,6 +52,41 @@ function(req, res) {
     }));
 });
 
+
+app.get('/api/complete',
+function(req, resi) {
+    resi.contentType('application/json');
+    var options = {
+      host: 'www.google.com',
+      port: 80,
+      path: '/complete/search?output=toolbar&q='+require('url').parse(req.url, true).query.q,
+      method: 'GET'
+    };
+
+    var req = http.request(options, function(res) {
+      res.setEncoding('utf8');
+      var datarequire = '';
+      res.on('data', function (chunk) {
+         datarequire+=chunk;
+      }.bind(this));    
+      res.on('end', function () {
+         var DOMParser = require('xmldom').DOMParser;
+         var doc = new DOMParser().parseFromString(datarequire,'text/xml');
+         var sugs = doc.getElementsByTagName('suggestion');
+         var sendarray = [];
+         for(var i = 0; i < sugs.length; i++){
+            sendarray.push(sugs.item(i).getAttribute('data'));
+         }
+         resi.send(JSON.stringify(sendarray));
+      }.bind(this));
+
+    }.bind(this));
+    req.on('error', function(e) {
+      console.log('problem with request: ' + e.message);
+    });
+    req.end();    
+});
+
 io.sockets.on('connection',
 function(socket) {
 
