@@ -70,6 +70,7 @@ function(req, resi) {
          datarequire+=chunk;
       }.bind(this));    
       res.on('end', function () {
+        try{
          var DOMParser = require('xmldom').DOMParser;
          var doc = new DOMParser().parseFromString(datarequire,'text/xml');
          var sugs = doc.getElementsByTagName('suggestion');
@@ -78,6 +79,10 @@ function(req, resi) {
             sendarray.push(sugs.item(i).getAttribute('data'));
          }
          resi.send(JSON.stringify(sendarray));
+       }catch(e){
+        resi.send('error');
+        console.log(e);
+       }
       }.bind(this));
 
     }.bind(this));
