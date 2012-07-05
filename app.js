@@ -80,7 +80,7 @@ function(req, resi) {
          }
          resi.send(JSON.stringify(sendarray));
        }catch(e){
-        resi.send('error');
+        resi.send('[]');
         console.log(e);
        }
       }.bind(this));
