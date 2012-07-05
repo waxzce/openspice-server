@@ -22,7 +22,7 @@ p.play = function(t) {
     } catch(e) {
         console.log(e);
     }
-    var timer = Math.round(t.length) * 1000;
+    var timer = (Math.round(t.length)+1) * 1000;
     console.log("start");
     console.log(t);
     console.log(timer);
