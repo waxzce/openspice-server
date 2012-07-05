@@ -22,7 +22,11 @@ p.play = function(t) {
     } catch(e) {
         console.log(e);
     }
-    var timeoutId = setTimeout(this.emit.bind(this, 'play_done', t), Math.round(t.length) * 1000);
+    var timer = Math.round(t.length) * 1000;
+    console.log("start");
+    console.log(t);
+    console.log(timer);
+    var timeoutId = setTimeout(this.emit.bind(this, 'play_done', t), timer);
 };
 
 p.volumeUP = function(t) {
