@@ -9,6 +9,7 @@
 
     <!-- Le styles -->
     <link href="/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/main.css" media="all"/>
     <link href="/css/bootstrap-responsive.css" rel="stylesheet">
     <link href="/css/jquery.autocomplete.css" rel="stylesheet">
    <script src="/js/jquery-1.7.2.min.js"></script>
@@ -23,11 +24,19 @@
     <div class="navbar-inner">
     <div class="container-fluid">
 	    <a class="brand">
-	    	OpenSpice
+	    	SounderBox
 		</a>
-    <span class="icon-bar btn btn-inverse" id="btn_volume_down" ><i class="icon-volume-down icon-white"></i></span>
-    <span class="icon-bar btn btn-inverse" id="btn_volume_up" ><i class="icon-volume-up icon-white"></i></span>
-    <span class="icon-bar btn btn-inverse" id="btn_flush_plz" ><i class="icon-remove icon-white"></i></span>
+   <!--
+   <span class="icon-bar btn btn-inverse" id="btn_volume_down">
+      <i class="icon-volume-down icon-white"></i>
+   </span>
+   <span class="icon-bar btn btn-inverse" id="btn_volume_up">
+      <i class="icon-volume-up icon-white"></i>
+   </span>
+   <span class="icon-bar btn btn-inverse" id="btn_flush_plz">
+      <i class="icon-remove icon-white"></i>
+   </span>
+   -->
 	    <form id="search_track" class="navbar-search pull-right">
 			<input type="text" class="search-query" placeholder="Search for track" /> <a class="btn btn-inverse"><i class="icon-search icon-white"></i></a>
 			
@@ -47,22 +56,30 @@
 
 	<div id="playing">
 	</div>
- 
-  	    <div class="progress">
-	    <div class="bar"
-	    style="width: 0%;"></div>
-	    </div>
+    <div class="progress">
+      <div class="bar" style="width: 0%;"></div>
+    </div>
 	</div>
+	
 	<ul id="mainmenu" class="well nav nav-list">
+		<!--
 		<li id="recent_query" class="nav-header">
 			Recent Queries
 		</li>
-      <li class="divider"></li>
+		-->
 	  <li id="playlist_next" class="nav-header">
 		Music queue
 	  </li>
 	  
 	</ul>
+	
+	<div class="hero-unit">
+	   <p>
+	      Choisis l'ambiance avec <strong>SounderBox</strong> et
+	      <strong>Le Nid</strong> !
+	   </p>
+	   <p>(quelques explications sur le fonctionnement)</p>
+	</div>
 
 </div>
 
