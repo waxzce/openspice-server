@@ -11,7 +11,9 @@ console.log(process.argv);
 
 var cu_play = {};
 
-
+var valid_admin = function(passgiven){
+  return masterpass == passgiven;
+};
 
 server.listen(8066);
 
@@ -30,6 +32,17 @@ app.configure(function() {
 app.get('/',
 function(req, res) {
     res.sendfile(__dirname + '/index.html');
+});
+
+app.get('/admin',
+function(req, res) {
+    res.sendfile(__dirname + '/admin.html');
+});
+
+app.get('/api/admin/passcheck',
+function(req, res) {
+  res.send(JSON.stringify({valid:valid_admin(require('url').parse(req.url, true).query.pass)}));
+    
 });
 
 app.get('/api/queue',
@@ -112,7 +125,16 @@ function(socket) {
     
     socket.on('require_flush',
     function(data) {
-        if(data.pass == masterpass){
+        if(valid_admin(data.pass)){
+            musicqueue.flushQueue();
+            clearTimeout(dospotify.timeoutId);
+            io.sockets.emit('re_init');
+        }
+    });
+
+    socket.on('request_del_track',
+    function(data) {
+        if(valid_admin(data.pass)){
             musicqueue.flushQueue();
             clearTimeout(dospotify.timeoutId);
             io.sockets.emit('re_init');

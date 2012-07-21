@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>music Bootstrap</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="/css/jquery.autocomplete.css" rel="stylesheet">
+   <script src="/js/jquery-1.7.2.min.js"></script>
+   <script src="/js/underscore-min.js"></script>
+   <script src="/js/jquery.autocomplete.min.js"></script>
+    
+  </head>
+
+  <body data-spy="scroll" data-target=".subnav" data-offset="50">
+
+    <div class="navbar">
+    <div class="navbar-inner">
+    <div class="container-fluid">
+	    <a class="brand">
+	    	ADMIN
+		</a>
+    <!--
+    <span class="icon-bar btn btn-inverse" id="btn_volume_down" ><i class="icon-volume-down icon-white"></i></span>
+    <span class="icon-bar btn btn-inverse" id="btn_volume_up" ><i class="icon-volume-up icon-white"></i></span>
+  -->
+	    <form id="search_track" class="navbar-search pull-right">
+			<input type="text" class="search-query" placeholder="Search for track" /> <a class="btn btn-inverse"><i class="icon-search icon-white"></i></a>
+			
+	    </form>
+	   </div>
+    </div>
+    </div>
+
+
+
+
+<div></div>
+<div class="container-fluid">
+<div class="row-fluid">
+<div class="span4">
+	<div id="playing_box" class="well">
+
+	<div id="playing">
+	</div>
+ 
+  	    <div class="progress">
+	    <div class="bar"
+	    style="width: 0%;"></div>
+	    </div>
+	</div>
+	<ul id="mainmenu" class="well nav nav-list">
+		<li id="recent_query" class="nav-header">
+			Recent Queries
+		</li>
+      <li class="divider"></li>
+	  
+	</ul>
+
+</div>
+
+<div class="span8">
+	<h3>Playlist</h3>
+    <div class="controls">    <span class="btn" id="btn_flush_plz" ><i class="icon-remove"></i>Flush All</span>
+</div>
+    <table id="playlist_next" class="table table-striped">
+
+    </table>
+    <div class="controls"></div>
+    <div class="pagination pagination-centered">
+    <ul>
+    
+    </ul>
+    </div>
+</div>
+</div>
+</div>
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/adminscript.js"></script>
+
+  </body>
+</html>
