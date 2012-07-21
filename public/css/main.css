@@ -8,3 +8,11 @@ table .btn.disabled{
    background:#007399;
    color:#eee;
 }
+@media(max-width:767px){
+   .alert,#playing_box,#page-title{
+      display:none;
+   }
+   #mainmenu{
+      margin-bottom:20px;
+   }
+}
