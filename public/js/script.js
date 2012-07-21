@@ -15,9 +15,9 @@ var OpenSpice = (function() {
     };
 
     p.templates = {
-        trackInSearch: _.template('<tr><td><i class="icon-music"></i></td><td><%= name %></td><td><%= artists %></td><td><%= album%></td><td><button class="btn fnct_plus <%= disabled%>"><i class="icon-plus"></i></button></td></tr>'),
+        trackInSearch: _.template('<tr><td><i class="icon-music"></i></td><td><%= name %></td><td><%= artists %></td><td><%= album%></td><td><button class="btn btn-primary fnct_plus <%= disabled%>"><i class="icon-plus icon-white"></i></button></td></tr>'),
 
-        trackInAlbum: _.template('<tr><td><i class="icon-music"></i></td><td><%= number %></td><td><%= name %></td><td><%= artists %></td><td><button class="btn fnct_plus <%= disabled%>"><i class="icon-plus"></i></button></td></tr>'),
+        trackInAlbum: _.template('<tr><td><i class="icon-music"></i></td><td><%= number %></td><td><%= name %></td><td><%= artists %></td><td><button btn-primary class="btn fnct_plus <%= disabled%>"><i class="icon-plus icon-white"></i></button></td></tr>'),
 
         album: _.template('<tr><td><i class="icon-book"></i></td><td><%= name %></td><td><%= year %></td></tr>'),
 
