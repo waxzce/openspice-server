@@ -135,9 +135,15 @@ function(socket) {
     socket.on('request_del_track',
     function(data) {
         if(valid_admin(data.pass)){
-            musicqueue.flushQueue();
+            // to do
+        }
+    });
+
+    socket.on('request_next',
+    function(data) {
+        if(valid_admin(data.pass)){
             clearTimeout(dospotify.timeoutId);
-            io.sockets.emit('re_init');
+            musicqueue.playNext();
         }
     });
 

@@ -23,7 +23,7 @@ var MASTERPASS = '', OpenSpice = (function() {
 
         currentlyPlaying: _.template('<h5><%= name %></h5><p><%= artists %></p>'),
 
-        trackInQueue: _.template('<tr><td><i class="icon-music"></i></td><td><%= name %></td><td><%= artists %></td><td><%= album%></td><td><button class="btn fnct_plus <%= disabled%>"><i class="icon-plus"></i></button></td></tr>')
+        trackInQueue: _.template('<tr><td><i class="icon-music"></i></td><td><%= name %></td><td><%= artists %></td><td><%= album%></td><td><button class="btn fnct_plus <%= disabled%>"><i class="icon-remove"></i></button></td></tr>')
     };
 
     p.fetchQueue = function() {
