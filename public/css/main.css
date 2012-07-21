@@ -1,0 +1,10 @@
+.alert h2{
+   font-size:20px;
+}
+table .btn.disabled{
+   display:none;
+}
+#playlist_next + li{
+   background:#007399;
+   color:#eee;
+}

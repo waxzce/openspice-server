@@ -23,7 +23,7 @@
     <div class="navbar">
     <div class="navbar-inner">
     <div class="container-fluid">
-	    <a class="brand">
+	    <a class="brand" href=".">
 	    	SounderBox
 		</a>
    <!--
@@ -38,7 +38,7 @@
    </span>
    -->
     <form id="search_track" class="navbar-search form-inline pull-right">
-		<input type="text" class="search-query" placeholder="Search for track"/>
+		<input type="text" class="search-query" placeholder="Chercher une chanson"/>
 		<a class="btn btn-primary" type="submit">
 		   <i class="icon-search icon-white"></i>
 	   </a>
@@ -64,11 +64,11 @@
 	</div>
 	
 <div class="alert alert-info">
-<a class="close">&times;</a>
-<h3>
+<a class="close" data-dismiss="alert">&times;</a>
+<h2>
 Choisis l'ambiance avec <strong>SounderBox</strong> et
-<strong>Le Nid</strong> !
-</h3>
+<strong>Le&nbsp;Nid</strong> !
+</h2>
 <p>(quelques explications sur le fonctionnement)</p>
 </div>
 
@@ -79,7 +79,7 @@ Choisis l'ambiance avec <strong>SounderBox</strong> et
 		</li>
 		-->
 	  <li id="playlist_next" class="nav-header">
-		Music queue
+		La playlist
 	  </li>
 	  
 	</ul>
@@ -87,7 +87,10 @@ Choisis l'ambiance avec <strong>SounderBox</strong> et
 </div>
 
 <div class="span8">
-	<h3>Use the search in the navbar</h3>
+	<h3>
+	   Entre un artiste ou une chanson dans la barre de recherche
+	   <i class="icon-arrow-up icon-white"></i>
+   </h3>
     <div class="controls"></div>
     <table id="result" class="table table-striped">
 
