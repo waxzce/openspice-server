@@ -12,6 +12,7 @@ var p = Mu.prototype = Object.create(EventEmitter.prototype);
 
 
 p.add = function(t) {
+    var tmpql = this.queue.length;
 	if(Array.isArray(t)){
 		for(var i in t){
 			this.queue.push(t[i]);
@@ -19,7 +20,7 @@ p.add = function(t) {
 	}else{
 		this.queue.push(t);
 	}
-    if (this.queue.length == 1) {
+    if (tmpql == 0) {
         this.dospotify.play(this.queue[0]);
     }
     this.emit('added', t);
