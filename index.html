@@ -1,112 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>SounderBox + Le Nid</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
+   <head>
+      <meta charset="utf-8">
+      <title>SounderBox + Le Nid</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="description" content="">
+      <meta name="author" content="">
 
-    <!-- Le styles -->
-    <link href="/css/bootstrap.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="/css/main.css" media="all"/>
-    <link href="/css/bootstrap-responsive.css" rel="stylesheet">
-    <link href="/css/jquery.autocomplete.css" rel="stylesheet">
-   <script src="/js/jquery-1.7.2.min.js"></script>
-   <script src="/js/underscore-min.js"></script>
-   <script src="/js/jquery.autocomplete.min.js"></script>
-    
-  </head>
-
-  <body data-spy="scroll" data-target=".subnav" data-offset="50">
-
-    <div class="navbar">
-    <div class="navbar-inner">
-    <div class="container-fluid">
-	    <a class="brand" href=".">
-	    	SounderBox
-		</a>
-   <!--
-   <span class="icon-bar btn btn-inverse" id="btn_volume_down">
-      <i class="icon-volume-down icon-white"></i>
-   </span>
-   <span class="icon-bar btn btn-inverse" id="btn_volume_up">
-      <i class="icon-volume-up icon-white"></i>
-   </span>
-   <span class="icon-bar btn btn-inverse" id="btn_flush_plz">
-      <i class="icon-remove icon-white"></i>
-   </span>
-   -->
-    <form id="search_track" class="navbar-search form-inline pull-right">
-		<div class="input-append">
-		<input type="text" class="search-query" placeholder="Chercher une chanson"/><a class="btn btn-primary"><i class="icon-search icon-white"></i></a>
-	   </div>
-    </form>
-	   </div>
-    </div>
-    </div>
-
-
-
-
-<div></div>
-<div class="container-fluid">
-<div class="row-fluid">
-<div class="span4">
-	<div id="playing_box" class="well">
-
-	<div id="playing">
-	</div>
-    <div class="progress">
-      <div class="bar" style="width: 0%;"></div>
-    </div>
-	</div>
-	
-<div class="alert alert-info">
-<a class="close" data-dismiss="alert">&times;</a>
-<h2>
-Choisis l'ambiance avec <strong>SounderBox</strong> et
-<strong>Le&nbsp;Nid</strong> !
-</h2>
-<p>(quelques explications sur le fonctionnement)</p>
-</div>
-
-	<ul id="mainmenu" class="well nav nav-list">
-		<!--
-		<li id="recent_query" class="nav-header">
-			Recent Queries
-		</li>
-		-->
-	  <li id="playlist_next" class="nav-header">
-		La playlist
-	  </li>
-	  
-	</ul>
-
-</div>
-
-<div class="span8">
-	<h3 id="page-title">
-	   Entre un artiste ou une chanson dans la barre de recherche
-	   <i class="icon-arrow-up icon-white"></i>
-   </h3>
-    <div class="controls"></div>
-    <table id="result" class="table table-striped">
-
-    </table>
-    <div class="controls"></div>
-    <div class="pagination pagination-centered">
-    <ul>
-    
-    </ul>
-    </div>
-</div>
-</div>
-</div>
-
-
-<script src="/socket.io/socket.io.js"></script>
-<script src="/js/script.js"></script>
-
-  </body>
+      <link href="/css/bootstrap.css" rel="stylesheet">
+      <link rel="stylesheet" type="text/css" href="/css/main.css" media="all"/>
+      <link href="/css/bootstrap-responsive.css" rel="stylesheet">
+      <link href="/css/jquery.autocomplete.css" rel="stylesheet">
+      
+      <script src="/js/jquery-1.7.2.min.js"></script>
+      <script src="/js/underscore-min.js"></script>
+      <script src="/js/jquery.autocomplete.min.js"></script>
+   </head>
+   <body>
+      <!-- navigation -->
+      <div class="navbar">
+         <div class="navbar-inner">
+            <div class="container-fluid">
+               <a class="brand" href=".">SounderBox + Le Nid</a>
+               <!--
+               <span class="icon-bar btn btn-inverse" id="btn_volume_down">
+               <i class="icon-volume-down icon-white"></i>
+               </span>
+               <span class="icon-bar btn btn-inverse" id="btn_volume_up">
+               <i class="icon-volume-up icon-white"></i>
+               </span>
+               <span class="icon-bar btn btn-inverse" id="btn_flush_plz">
+               <i class="icon-remove icon-white"></i>
+               </span>
+               -->
+               <form id="search_track" class="navbar-search form-inline pull-right">
+                  <div class="input-append">
+                     <input type="text" class="search-query" placeholder="Chercher une chanson"/><a class="btn btn-primary"><i class="icon-search icon-white"></i></a>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+      <!-- body -->
+      <div class="container-fluid">
+         <div class="row-fluid">
+            <!-- left col -->
+            <div class="span4">
+               <!-- playing box -->
+               <div id="playing_box" class="well">
+                  <div id="playing"></div>
+                  <div class="progress">
+                     <div class="bar" style="width: 0%;"></div>
+                  </div>
+               </div>
+               <!-- presentation -->
+               <div class="alert alert-info">
+                  <a class="close" data-dismiss="alert">&times;</a>
+                  <h2>
+                     Choisis l'ambiance avec <strong>SounderBox</strong> et
+                     <strong>Le&nbsp;Nid</strong> !
+                  </h2>
+                  <p>
+                     Le Nid participe à l'expérience SounderBox : une autre
+                     façon d'écouter la musique en soirée.
+                  </p>
+                  <ol>
+                     <li>
+                        Sélectionne ton morceau parmi plusieurs millions de
+                        titres disponibles (catalogue Spotify)
+                     </li>
+                     <li>Ajoute-le à la playlist du lieu</li>
+                     <li>Même en sortie, crée une soirée qui te ressemble !</li>
+                  </ol>
+               </div>
+               <!-- playlist -->
+               <ul id="mainmenu" class="well nav nav-list">
+                  <!--
+                  <li id="recent_query" class="nav-header">
+                  Recent Queries
+                  </li>
+                  -->
+                  <li id="playlist_next" class="nav-header">La playlist</li>
+               </ul>
+            </div>
+            <!-- song list -->
+            <div class="span8">
+               <h3 id="page-title">
+                  Entre un artiste ou une chanson dans la barre de recherche
+                  <i class="icon-arrow-up icon-white"></i>
+               </h3>
+               <div class="controls"></div>
+               <table id="result" class="table table-striped"></table>
+               <div class="controls"></div>
+               <div class="pagination pagination-centered">
+                  <ul></ul>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- scripts -->
+      <script src="/socket.io/socket.io.js"></script>
+      <script src="/js/script.js"></script>
+   </body>
 </html>
