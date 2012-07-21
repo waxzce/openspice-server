@@ -17,7 +17,7 @@ var OpenSpice = (function() {
     p.templates = {
         trackInSearch: _.template('<tr><td><i class="icon-music"></i></td><td><%= name %></td><td><%= artists %></td><td><%= album%></td><td><button class="btn btn-primary fnct_plus <%= disabled%>"><i class="icon-plus icon-white"></i></button></td></tr>'),
 
-        trackInAlbum: _.template('<tr><td><i class="icon-music"></i></td><td><%= number %></td><td><%= name %></td><td><%= artists %></td><td><button btn-primary class="btn fnct_plus <%= disabled%>"><i class="icon-plus icon-white"></i></button></td></tr>'),
+        trackInAlbum: _.template('<tr><td><i class="icon-music"></i></td><td><%= number %></td><td><%= name %></td><td><%= artists %></td><td><button class="btn btn-primary fnct_plus <%= disabled%>"><i class="icon-plus icon-white"></i></button></td></tr>'),
 
         album: _.template('<tr><td><i class="icon-book"></i></td><td><%= name %></td><td><%= year %></td></tr>'),
 
@@ -131,7 +131,7 @@ var OpenSpice = (function() {
 
             if (di.num_results > di.limit) {
                 if (di.page > 1) {
-                    $('<li><a href="#"><i class="icon-arrow-left"></i></a></li>')
+                    $('<li><a href="#"><i class="icon-arrow-left icon-white"></i></a></li>')
                     .click(_.bind(OpenSpice.performSearch, this, di.query, di.page - 1))
                     .appendTo('.pagination');
                 }
@@ -159,13 +159,13 @@ var OpenSpice = (function() {
                     .appendTo('.pagination');
                 }
                 if (di.page < maxpages) {
-                    $('<li><a href="#"><i class="icon-arrow-right"></i></a></li>')
+                    $('<li><a href="#"><i class="icon-arrow-right icon-white"></i></a></li>')
                     .click(_.bind(OpenSpice.performSearch, this, di.query, di.page + 1))
                     .appendTo('.pagination');
                 }
             }
 
-            $('<tr><td></td><th>Name</th><th>Artist</th><th>Album</th><td></td></tr>').appendTo('#result');
+            $('<tr><td></td><th>Chanson</th><th>Artiste</th><th>Album</th><td></td></tr>').appendTo('#result');
             _.each(data.tracks,
             function(t, i) {
                 $(OpenSpice.templates.trackInSearch({
@@ -211,7 +211,7 @@ var OpenSpice = (function() {
         function(data) {
             $('h3').text(data.album.artist + ' - ' + data.album.name);
             var disabled = !OpenSpice.isAvailable(data.album) ? "disabled": "";
-            $('<tr><td></td><th>#</th><th>Name</th><th>Artist</th><td></td></tr>').appendTo('#result');
+            $('<tr><td></td><th>#</th><th>Chanson</th><th>Artiste</th><td></td></tr>').appendTo('#result');
             _.each(data.album.tracks,
             function(t) {
                 $(OpenSpice.templates.trackInAlbum({
@@ -225,7 +225,7 @@ var OpenSpice = (function() {
                 })).data('trackdata', t).appendTo('#result');
             });
 
-            $('<button class="btn btn-success add-all"><i class="icon-plus icon-white"></i>Add everything</button>').appendTo('.controls');
+            $('<button class="btn btn-primary add-all"><i class="icon-plus icon-white"></i> Ajouter tout</button>').appendTo('.controls');
 
             $('.add-all').click(function(e) {
                 OpenSpice.socket.emit('add_queue', _.map($('#result tr+tr'),
