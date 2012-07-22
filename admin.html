@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>music Bootstrap</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
+   <head>
+      <meta charset="utf-8">
+      <title>SounderBox + Le Nid</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="description" content="">
+      <meta name="author" content="">
 
-    <!-- Le styles -->
-    <link href="/css/bootstrap.css" rel="stylesheet">
-    <link href="/css/bootstrap-responsive.css" rel="stylesheet">
-    <link href="/css/jquery.autocomplete.css" rel="stylesheet">
-    <link href="/css/main.css" rel="stylesheet">
+      <link href="/css/bootstrap.css" rel="stylesheet">
+      <link rel="stylesheet" type="text/css" href="/css/main.css" media="all"/>
+      <link href="/css/bootstrap-responsive.css" rel="stylesheet">
+      <link href="/css/jquery.autocomplete.css" rel="stylesheet">
+      <link rel="shortcut icon" type="image/png" href="/img/favicon.png"/>
 
    <script src="/js/jquery-1.7.2.min.js"></script>
    <script src="/js/underscore-min.js"></script>
@@ -19,9 +19,9 @@
     
   </head>
 
-  <body data-spy="scroll" data-target=".subnav" data-offset="50">
+  <body>
 
-    <div class="navbar">
+    <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
     <div class="container-fluid">
 	    <a class="brand">
@@ -31,10 +31,11 @@
     <span class="icon-bar btn btn-inverse" id="btn_volume_down" ><i class="icon-volume-down icon-white"></i></span>
     <span class="icon-bar btn btn-inverse" id="btn_volume_up" ><i class="icon-volume-up icon-white"></i></span>
   -->
-	    <form id="search_track" class="navbar-search pull-right">
-			<input type="text" class="search-query" placeholder="Search for track" /> <a class="btn btn-inverse"><i class="icon-search icon-white"></i></a>
-			
-	    </form>
+	    <form id="search_track" class="navbar-search form-inline pull-right">
+         <div class="input-append">
+            <input type="text" class="search-query" placeholder="Chercher une chanson"/><a class="btn btn-primary"><i class="icon-search icon-white"></i></a>
+         </div>
+      </form>
 	   </div>
     </div>
     </div>
@@ -51,7 +52,7 @@
 	<div id="playing">
 	</div>
  
-  	    <div class="progress">
+  	    <div class="progress progress-warning">
 	    <div class="bar"
 	    style="width: 0%;"></div>
 	    </div>
@@ -62,7 +63,7 @@
 
 <div class="span8">
 	<h3>Playlist</h3>
-    <div class="controls">    <span class="btn" id="btn_flush_plz" ><i class="icon-remove"></i>Flush All</span> <span class="btn" id="btn_next_plz" ><i class="icon-forward"></i>Next</span>
+    <div class="controls">    <span class="btn btn-danger" id="btn_flush_plz" ><i class="icon-remove"></i>Flush All</span> <span class="btn btn-primary" id="btn_next_plz" ><i class="icon-forward"></i>Next</span>
 </div>
     <table id="playlist_next" class="table table-striped">
 
