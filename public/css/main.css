@@ -5,7 +5,7 @@ table .btn.disabled{
    display:none;
 }
 #playlist_next + li{
-   background:#007399;
+   background:#D9541A;
    color:#eee;
 }
 @media(max-width:767px){
