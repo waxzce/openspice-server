@@ -1,3 +1,9 @@
+.navbar .brand{
+   background:url("../img/logo.png") center no-repeat;
+   overflow:hidden;
+   text-indent:-200%;
+   width:183px;
+}
 .alert h2{
    font-size:20px;
 }
@@ -14,5 +20,14 @@ table .btn.disabled{
    }
    #mainmenu{
       margin-bottom:20px;
+   }
+}
+@media all and (min-height:800px) and (min-width:400px){
+   body:after{
+      bottom:-10px;
+      content:url("../img/flyer.png");
+      left:3%;
+      position:fixed;
+      z-index:-1;
    }
 }
