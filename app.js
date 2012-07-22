@@ -135,7 +135,8 @@ function(socket) {
     socket.on('require_del_track',
     function(data) {
         if(valid_admin(data.pass)){
-            // to do
+            musicqueue.queue.splice(data.track_number,1);
+            io.sockets.emit('re_init');
         }
     });
 

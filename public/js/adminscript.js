@@ -30,14 +30,7 @@ var MASTERPASS = '', OpenSpice = (function() {
         $.ajax({
             url: "/api/queue",
         }).done(function(data) {
-            _.each(data,
-            function(t, i) {
-                $('#playlist_next').append(OpenSpice.templates.trackInQueue({
-                    name: t.name,
-                    artists: _.pluck(t.artists, 'name').join(', ')
-                }));
-            });
-        $('.fnct_rm').click(OpenSpice.ask_rm_this).removeClass('fnct_rm');
+            OpenSpice.updateDisplayedQueue(data);
         });
     };
 
@@ -98,11 +91,13 @@ var MASTERPASS = '', OpenSpice = (function() {
                 artists: _.pluck(added.artists, 'name').join(', ')
             }));
         }
-        $('.fnct_rm').click(OpenSpice.ask_rm_this).removeClass('fnct_rm');
+        $('.fnct_rm').click(OpenSpice.ask_rm_this).addClass('fnct_rm_done').removeClass('fnct_rm');
+        $('#playlist_next tr:first').find('.fnct_rm_done').remove();
     };
 
+
     p.ask_rm_this = function(e){
-        console.log($(e.target).parents('tr').prevAll('tr').size());
+        OpenSpice.socket.emit('require_del_track', {'pass':MASTERPASS, 'track_number':$(e.target).parents('tr').prevAll('tr').size()})
     }
 
     p.updateRecentQueries = function(newQuery) {
