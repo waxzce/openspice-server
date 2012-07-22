@@ -11,14 +11,16 @@
       <link rel="stylesheet" type="text/css" href="/css/main.css" media="all"/>
       <link href="/css/bootstrap-responsive.css" rel="stylesheet">
       <link href="/css/jquery.autocomplete.css" rel="stylesheet">
+      <link rel="shortcut icon" type="image/png" href="/img/favicon.png"/>
       
       <script src="/js/jquery-1.7.2.min.js"></script>
       <script src="/js/underscore-min.js"></script>
       <script src="/js/jquery.autocomplete.min.js"></script>
+      <script type="text/javascript" src="/js/bootstrap-alert.js"></script>
    </head>
    <body>
       <!-- navigation -->
-      <div class="navbar">
+      <div class="navbar navbar-fixed-top">
          <div class="navbar-inner">
             <div class="container-fluid">
                <a class="brand" href=".">SounderBox + Le Nid</a>
@@ -58,10 +60,10 @@
                   <a class="close" data-dismiss="alert">&times;</a>
                   <h2>
                      Choisis l'ambiance avec <strong>SounderBox</strong> et
-                     <strong>Le&nbsp;Nid</strong> !
+                     <strong>Le&nbsp;Nid</strong>&nbsp;!
                   </h2>
                   <p>
-                     Le Nid participe à l'expérience SounderBox : une autre
+                     Le Nid participe à l'expérience SounderBox&nbsp;: une autre
                      façon d'écouter la musique en soirée.
                   </p>
                   <ol>
@@ -70,7 +72,7 @@
                         titres disponibles (catalogue Spotify)
                      </li>
                      <li>Ajoute-le à la playlist du lieu</li>
-                     <li>Même en sortie, crée une soirée qui te ressemble !</li>
+                     <li>Même en sortie, crée une soirée qui te ressemble&nbsp;!</li>
                   </ol>
                </div>
                <!-- playlist -->
@@ -82,12 +84,15 @@
                   -->
                   <li id="playlist_next" class="nav-header">La playlist</li>
                </ul>
+               <img src="/img/flyer.png" alt="24 juillet / 20h : sounderbox + le nid" id="illus" />
             </div>
             <!-- song list -->
             <div class="span8">
                <h3 id="page-title">
-                  Entre un artiste ou une chanson dans la barre de recherche
-                  <i class="icon-arrow-up icon-white"></i>
+                  <span class="pull-right">
+                     Entre un artiste ou une chanson dans la barre de recherche
+                     <i class="icon-arrow-up icon-white"></i>
+                  </span>
                </h3>
                <div class="controls"></div>
                <table id="result" class="table table-striped"></table>

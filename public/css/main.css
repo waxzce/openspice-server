@@ -1,5 +1,9 @@
+body{
+   padding-top:60px;
+}
 .navbar .brand{
    background:url("../img/logo.png") center no-repeat;
+   border-bottom:3px solid transparent;
    overflow:hidden;
    text-indent:-200%;
    width:183px;
@@ -10,11 +14,23 @@
 table .btn.disabled{
    display:none;
 }
+.typeahead{
+   z-index:1040;
+}
+#illus{
+   bottom:0;
+   display:none;
+   position:fixed;
+   z-index:-1;
+}
 #playlist_next + li{
    background:#D9541A;
    color:#eee;
 }
 @media(max-width:767px){
+   .navbar .brand,.navbar .brand:hover{
+      border-bottom:none;
+   }
    .alert,#playing_box,#page-title{
       display:none;
    }
@@ -23,12 +39,8 @@ table .btn.disabled{
    }
 }
 @media all and (min-height:800px) and (min-width:768px){
-   body:after{
-      bottom:-10px;
-      content:url("../img/flyer.png");
-      left:4%;
-      position:fixed;
-      z-index:-1;
+   #illus{
+      display:block;
    }
 }
 @media(max-width:1200px){
