@@ -22,12 +22,17 @@ table .btn.disabled{
       margin-bottom:20px;
    }
 }
-@media all and (min-height:800px) and (min-width:400px){
+@media all and (min-height:800px) and (min-width:768px){
    body:after{
       bottom:-10px;
       content:url("../img/flyer.png");
-      left:3%;
+      left:4%;
       position:fixed;
       z-index:-1;
+   }
+}
+@media(max-width:1200px){
+   body:after{
+      left:0;
    }
 }
