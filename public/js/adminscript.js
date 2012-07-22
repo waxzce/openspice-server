@@ -15,15 +15,15 @@ var MASTERPASS = '', OpenSpice = (function() {
     };
 
     p.templates = {
-        trackInSearch: _.template('<tr><td><i class="icon-music"></i></td><td><%= name %></td><td><%= artists %></td><td><%= album%></td><td><button class="btn fnct_plus <%= disabled%>"><i class="icon-plus"></i></button></td></tr>'),
+        trackInSearch: _.template('<tr><td><i class="icon-music icon-white"></i></td><td><%= name %></td><td><%= artists %></td><td><%= album%></td><td><button class="btn fnct_plus <%= disabled%>"><i class="icon-plus"></i></button></td></tr>'),
 
-        trackInAlbum: _.template('<tr><td><i class="icon-music"></i></td><td><%= number %></td><td><%= name %></td><td><%= artists %></td><td><button class="btn fnct_plus <%= disabled%>"><i class="icon-plus"></i></button></td></tr>'),
+        trackInAlbum: _.template('<tr><td><i class="icon-music icon-white"></i></td><td><%= number %></td><td><%= name %></td><td><%= artists %></td><td><button class="btn fnct_plus <%= disabled%>"><i class="icon-plus"></i></button></td></tr>'),
 
-        album: _.template('<tr><td><i class="icon-book"></i></td><td><%= name %></td><td><%= year %></td></tr>'),
+        album: _.template('<tr><td><i class="icon-book icon-white"></i></td><td><%= name %></td><td><%= year %></td></tr>'),
 
         currentlyPlaying: _.template('<h5><%= name %></h5><p><%= artists %></p>'),
 
-        trackInQueue: _.template('<tr><td><i class="icon-music"></i></td><td><%= name %></td><td><%= artists %></td><td><button class="btn fnct_rm"><i class="icon-remove"></i></button></td></tr>')
+        trackInQueue: _.template('<tr><td><i class="icon-music icon-white"></i></td><td><%= name %></td><td><%= artists %></td><td><button class="btn fnct_rm"><i class="icon-remove"></i></button></td></tr>')
     };
 
     p.fetchQueue = function() {

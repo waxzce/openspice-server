@@ -3,10 +3,11 @@ http = require('http'),
 app = app = express(),
 server = http.createServer(app),
 io = require('socket.io').listen(server),
+util = require('util'),
 dospotify = require('./dospotify.js').instance.init(io),
 musicqueue = require('./musicqueue.js').instance.init(dospotify);
 
-console.log(process.argv);
+util.log(process.argv);
 
 var cu_play = {};
 
@@ -93,13 +94,13 @@ function(req, resi) {
          resi.send(JSON.stringify(sendarray));
        }catch(e){
         resi.send('[]');
-        console.log(e);
+        util.log(e);
        }
       }.bind(this));
 
     }.bind(this));
     req.on('error', function(e) {
-      console.log('problem with request: ' + e.message);
+      util.log('problem with request: ' + e.message);
     });
     req.end();    
 });
@@ -142,7 +143,7 @@ function(socket) {
     function(data) {
         if(valid_admin(data.pass)){
             clearTimeout(dospotify.timeoutId);
-            musicqueue.playNext();
+            dospotify.emit('play_done');
         }
     });
 

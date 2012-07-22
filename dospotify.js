@@ -8,6 +8,7 @@ var Dospotify = function() {
     this.socket = null;
 	this.country = 'US';
     this.pass = 'tryo';
+    this.current_track = {};
     return this;
 }
 
@@ -23,12 +24,18 @@ p.play = function(t) {
     } catch(e) {
         console.log(e);
     }
+    this.current_track = t;
     var timer = (Math.round(t.length)+1) * 1000;
-    console.log("start");
-    console.log(t);
-    console.log(timer);
-    var timeoutId = setTimeout(this.emit.bind(this, 'play_done', t), timer);
+    var timeoutId = setTimeout(this.playing_is_finish.bind(this, t), timer);
 };
+
+p.playing_is_finish = function(t){
+    if(t.href == this.current_track.href){
+        this.emit('play_done', t);
+    }else{
+        console.log('bad timer for '+t.name);
+    }
+}
 
 p.volumeUP = function(t) {
     try {
