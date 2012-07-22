@@ -23,6 +23,7 @@ table .btn.disabled{
    position:fixed;
    z-index:-1;
 }
+
 #playlist_next + li{
    background:#D9541A;
    color:#eee;
