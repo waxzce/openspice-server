@@ -1,5 +1,5 @@
 // version spotify app
-var EventEmitter = require('events').EventEmitter;
+var EventEmitter = require('events').EventEmitter, microtime = require('microtime');
 
 
 var Dospotify = function() {
@@ -9,6 +9,9 @@ var Dospotify = function() {
 	this.country = 'US';
     this.pass = 'tryo';
     this.current_track = {};
+    this.current_track_start_time = 0;
+    this.current_track_timer = 0;
+    this.timeoutId = null;
     return this;
 }
 
@@ -25,8 +28,11 @@ p.play = function(t) {
         console.log(e);
     }
     this.current_track = t;
+    this.current_track_start_time = microtime.now();
+
     var timer = (Math.round(t.length)+1) * 1000;
-    var timeoutId = setTimeout(this.playing_is_finish.bind(this, t), timer);
+    this.current_track_timer = timer;
+    this.timeoutId = setTimeout(this.playing_is_finish.bind(this, t), timer);
 };
 
 p.playing_is_finish = function(t){

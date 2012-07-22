@@ -4,6 +4,7 @@ app = app = express(),
 server = http.createServer(app),
 io = require('socket.io').listen(server),
 util = require('util'),
+microtime = require('microtime'),
 dospotify = require('./dospotify.js').instance.init(io),
 musicqueue = require('./musicqueue.js').instance.init(dospotify);
 
@@ -54,6 +55,7 @@ function(req, res) {
 app.get('/api/playing',
 function(req, res) {
     res.contentType('application/json');
+    cu_play['progress'] = microtime.now() - dospotify.current_track_start_time;
     res.send(JSON.stringify(cu_play));
 });
 

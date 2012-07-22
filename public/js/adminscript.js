@@ -90,7 +90,7 @@ var MASTERPASS = '', OpenSpice = (function() {
             $('#playlist_next').append(OpenSpice.templates.trackInQueue({
                 name: added.name,
                 artists: _.pluck(added.artists, 'name').join(', '),
-                href: track.href
+                href: added.href
             }));
         }
         $('.fnct_rm').click(OpenSpice.ask_rm_this).addClass('fnct_rm_done').removeClass('fnct_rm');
