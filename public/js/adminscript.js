@@ -8,7 +8,7 @@ var MASTERPASS = '', OpenSpice = (function() {
     var p = Op.prototype;
 
     p.initialize = function() {
-        this.socket = io.connect(window.location);
+        this.socket = io.connect(window.location.href.substring(0, window.location.href.lastIndexOf('/')));
         this.options = {
             country: "FR"
         };
@@ -23,7 +23,7 @@ var MASTERPASS = '', OpenSpice = (function() {
 
         currentlyPlaying: _.template('<h5><%= name %></h5><p><%= artists %></p>'),
 
-        trackInQueue: _.template('<tr><td><i class="icon-music"></i></td><td><%= name %></td><td><%= artists %></td><td><%= album%></td><td><button class="btn fnct_plus <%= disabled%>"><i class="icon-remove"></i></button></td></tr>')
+        trackInQueue: _.template('<tr><td><i class="icon-music"></i></td><td><%= name %></td><td><%= artists %></td><td><button class="btn fnct_rm"><i class="icon-remove"></i></button></td></tr>')
     };
 
     p.fetchQueue = function() {
@@ -32,11 +32,12 @@ var MASTERPASS = '', OpenSpice = (function() {
         }).done(function(data) {
             _.each(data,
             function(t, i) {
-                $('#mainmenu').append(OpenSpice.templates.trackInQueue({
+                $('#playlist_next').append(OpenSpice.templates.trackInQueue({
                     name: t.name,
                     artists: _.pluck(t.artists, 'name').join(', ')
                 }));
             });
+        $('.fnct_rm').click(OpenSpice.ask_rm_this).removeClass('fnct_rm');
         });
     };
 
@@ -86,18 +87,23 @@ var MASTERPASS = '', OpenSpice = (function() {
         if (_.isArray(added)) {
             _.each(added,
             function(track) {
-                $('#mainmenu').append(OpenSpice.templates.trackInQueue({
+                $('#playlist_next').append(OpenSpice.templates.trackInQueue({
                     name: track.name,
                     artists: _.pluck(track.artists, 'name').join(', ')
                 }));
             });
         } else {
-            $('#mainmenu').append(OpenSpice.templates.trackInQueue({
+            $('#playlist_next').append(OpenSpice.templates.trackInQueue({
                 name: added.name,
                 artists: _.pluck(added.artists, 'name').join(', ')
             }));
         }
+        $('.fnct_rm').click(OpenSpice.ask_rm_this).removeClass('fnct_rm');
     };
+
+    p.ask_rm_this = function(e){
+        console.log($(e.target).parents('tr').prevAll('tr').size());
+    }
 
     p.updateRecentQueries = function(newQuery) {
         $('<li class="recentqueryitem">' + newQuery + '</li>').click(function(e) {
@@ -301,12 +307,10 @@ var MASTERPASS = '', OpenSpice = (function() {
 })();
 
 var passcheck = function(p, i){
-    console.log(typeof i );
     var ii = (typeof i == "undefined" ? 1 : ++i);
     $.ajax({
             url: "/api/admin/passcheck?pass="+p,
         }).done(_.bind(function(data) {
-            console.log(data);
             if(JSON.parse(data).valid){
                 MASTERPASS = p;
             }else{
@@ -335,12 +339,12 @@ $(function() {
     OpenSpice.socket.on('queue_add', OpenSpice.updateDisplayedQueue);
     OpenSpice.socket.on('queue_next_a',
     function(t) {
-        $('#mainmenu li.playlist_fellows:first').remove();
+        $('#playlist_next tr:first').remove();
     });
 
     OpenSpice.socket.on('re_init',
     function() {
-        $('#mainmenu').empty();
+        $('#playlist_next').empty();
         OpenSpice.fetchQueue();
         OpenSpice.fetchCurrentTrack();
         OpenSpice.fetchCountry();
@@ -363,7 +367,7 @@ $(function() {
         OpenSpice.ask_flush(MASTERPASS);
     });
 
-    $('#btn_flush_plz').click(function(e) {
+    $('#btn_next_plz').click(function(e) {
         OpenSpice.ask_next(MASTERPASS);
     });
 
