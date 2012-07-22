@@ -1,5 +1,9 @@
+body{
+   padding-top:60px;
+}
 .navbar .brand{
    background:url("../img/logo.png") center no-repeat;
+   border-bottom:3px solid transparent;
    overflow:hidden;
    text-indent:-200%;
    width:183px;
@@ -15,6 +19,9 @@ table .btn.disabled{
    color:#eee;
 }
 @media(max-width:767px){
+   .navbar .brand,.navbar .brand:hover{
+      border-bottom:none;
+   }
    .alert,#playing_box,#page-title{
       display:none;
    }
