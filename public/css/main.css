@@ -14,6 +14,12 @@ body{
 table .btn.disabled{
    display:none;
 }
+#illus{
+   bottom:0;
+   display:none;
+   position:fixed;
+   z-index:-1;
+}
 #playlist_next + li{
    background:#D9541A;
    color:#eee;
@@ -30,12 +36,8 @@ table .btn.disabled{
    }
 }
 @media all and (min-height:800px) and (min-width:768px){
-   body:after{
-      bottom:-10px;
-      content:url("../img/flyer.png");
-      left:4%;
-      position:fixed;
-      z-index:-1;
+   #illus{
+      display:block;
    }
 }
 @media(max-width:1200px){
