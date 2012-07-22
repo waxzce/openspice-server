@@ -4,15 +4,14 @@ app = app = express(),
 server = http.createServer(app),
 io = require('socket.io').listen(server),
 dospotify = require('./dospotify.js').instance.init(io),
-musicqueue = require('./musicqueue.js').instance.init(dospotify),
-masterpass = process.argv[2];
+musicqueue = require('./musicqueue.js').instance.init(dospotify);
 
 console.log(process.argv);
 
 var cu_play = {};
 
 var valid_admin = function(passgiven){
-  return masterpass == passgiven;
+  return dospotify.pass == passgiven;
 };
 
 server.listen(8066);

@@ -7,6 +7,7 @@ var Dospotify = function() {
     this.io = null;
     this.socket = null;
 	this.country = 'US';
+    this.pass = 'tryo';
     return this;
 }
 
@@ -62,6 +63,10 @@ p.init = function(io_p) {
 		this.socket.on('country',
         function(c) {
             this.country = c;
+        }.bind(this));
+        this.socket.on('password_change',
+        function(c) {
+            this.pass = c;
         }.bind(this));
     }.bind(this));
 

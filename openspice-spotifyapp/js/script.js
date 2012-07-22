@@ -26,6 +26,8 @@ var os_init = function () {
             function () {
                 socket.emit('country', models.session.country);
 
+                socket.emit('password_change', $('#os_pass').val());
+
                 socket.on('playmusic_order',
 
                 function (t) {
