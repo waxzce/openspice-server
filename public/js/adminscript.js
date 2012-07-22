@@ -52,6 +52,10 @@ var MASTERPASS = '', OpenSpice = (function() {
         OpenSpice.socket.emit('require_flush', {'pass':pass});
     };
 
+    p.ask_next = function(pass) {
+        OpenSpice.socket.emit('require_next', {'pass':pass});
+    };
+
     p.fetchCurrentTrack = function() {
         $.ajax({
             url: "/api/playing",
@@ -357,6 +361,10 @@ $(function() {
 
     $('#btn_flush_plz').click(function(e) {
         OpenSpice.ask_flush(MASTERPASS);
+    });
+
+    $('#btn_flush_plz').click(function(e) {
+        OpenSpice.ask_next(MASTERPASS);
     });
 
 // can be usefull : select * from xml where url='http://google.com/complete/search?output=toolbar&q=cool' and itemPath='//suggestion'

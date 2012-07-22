@@ -132,14 +132,14 @@ function(socket) {
         }
     });
 
-    socket.on('request_del_track',
+    socket.on('require_del_track',
     function(data) {
         if(valid_admin(data.pass)){
             // to do
         }
     });
 
-    socket.on('request_next',
+    socket.on('require_next',
     function(data) {
         if(valid_admin(data.pass)){
             clearTimeout(dospotify.timeoutId);
