@@ -27,6 +27,14 @@ table .btn.disabled{
    background:#D9541A;
    color:#eee;
 }
+
+.icon-spotify{
+   background-image: url("../img/spotify_icon.png");
+   background-position: 0px 0px;
+   width: 16px;
+   height: 16px;
+}
+
 @media(max-width:767px){
    .navbar .brand,.navbar .brand:hover{
       border-bottom:none;
@@ -48,3 +56,4 @@ table .btn.disabled{
       left:0;
    }
 }
+
