@@ -36,6 +36,10 @@ table .btn.disabled{
    height: 16px;
 }
 
+table#playlist_next tr:first .fnct_rm_done{
+   display:none;
+}
+
 @media(max-width:767px){
    .navbar .brand,.navbar .brand:hover{
       border-bottom:none;
@@ -57,4 +61,5 @@ table .btn.disabled{
       left:0;
    }
 }
+
 
