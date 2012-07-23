@@ -144,7 +144,7 @@ $(function() {
     OpenSpice.socket.on('queue_add', OpenSpice.updateDisplayedQueue);
     OpenSpice.socket.on('queue_next_a',
     function(t) {
-        $('#playlist_next tr:first').remove();
+        $('#mainmenu li.playlist_fellows:first').remove();
     });
 
     OpenSpice.socket.on('re_init',
