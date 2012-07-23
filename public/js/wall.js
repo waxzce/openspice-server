@@ -54,6 +54,7 @@ var MASTERPASS = '', OpenSpice = (function() {
                 name: t.name,
                 artists: _.pluck(t.artists, 'name').join(', ')
             }));
+            OpenSpice.displayAlbumArtwork(_.pluck(t.artists, "name").join(","), t.album.name);
         }
     };
 
