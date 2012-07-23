@@ -40,6 +40,11 @@ function(req, res) {
     res.sendfile(__dirname + '/admin.html');
 });
 
+app.get('/wall',
+function(req, res) {
+    res.sendfile(__dirname + '/wall.html');
+});
+
 app.get('/api/admin/passcheck',
 function(req, res) {
   res.send(JSON.stringify({valid:valid_admin(require('url').parse(req.url, true).query.pass)}));
