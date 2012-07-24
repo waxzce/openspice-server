@@ -102,8 +102,10 @@ var MASTERPASS = '', OpenSpice = (function() {
             });
         } else {
             OpenSpice.useAlbumArtwork(added, "large", function(url) {
-              $('#playlist_next').append(OpenSpice.templates.artworkInQueue({
-                  src: url
+              $('#playlist_next').prepend(OpenSpice.templates.trackInQueue({
+                   title: added.name,
+                   artists: _.pluck(added.artists, "name").join(", "),
+                   src: url
               }));
             });
         }
@@ -146,7 +148,7 @@ $(function() {
     OpenSpice.socket.on('queue_add', OpenSpice.updateDisplayedQueue);
     OpenSpice.socket.on('queue_next_a',
     function(t) {
-        $('#mainmenu li.playlist_fellows:first').remove();
+        $('#wall_queue li.playlist_fellows:first').remove();
     });
 
     OpenSpice.socket.on('re_init',
