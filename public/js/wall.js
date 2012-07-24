@@ -17,11 +17,10 @@ var MASTERPASS = '', OpenSpice = (function() {
     p.templates = {
         trackInAlbum: _.template('<tr><td><i class="icon-music icon-white"></i></td><td><%= number %></td><td><%= name %></td><td><%= artists %></td><td><button class="btn fnct_plus <%= disabled%>"><i class="icon-plus"></i></button></td></tr>'),
 
-        album: _.template('<tr><td><i class="icon-book icon-white"></i></td><td><%= name %></td><td><%= year %></td></tr>'),
+        currentlyPlaying: _.template('<h5><%= name %></h5><p><%= album %><br /><%= artists %></p>'),
 
-        currentlyPlaying: _.template('<h5><%= name %></h5><p><%= artists %></p>'),
-
-        trackInQueue: _.template('<li class="playlist_fellows"><i class="icon-music icon-white"></i><strong><%= name %></strong> - <%= artists %></li>')
+        trackInQueue: _.template('<li class="playlist_fellows"><i class="icon-music icon-white"></i><strong><%= name %></strong> - <%= artists %></li>'),
+        artworkInQueue: _.template('<li class="playlist_fellows"><img src="<%= src %>" alt=""/></li>')
     };
 
     p.fetchQueue = function() {
@@ -52,6 +51,7 @@ var MASTERPASS = '', OpenSpice = (function() {
         if (!_.isEmpty(t)) {
             $('#playing').html(OpenSpice.templates.currentlyPlaying({
                 name: t.name,
+                album: t.album.name,
                 artists: _.pluck(t.artists, 'name').join(', ')
             }));
             OpenSpice.useAlbumArtwork(t, OpenSpice.updateAlbumArtwork);
@@ -86,24 +86,18 @@ var MASTERPASS = '', OpenSpice = (function() {
         if (_.isArray(added)) {
             _.each(added,
             function(track) {
-                // OpenSpice.useAlbumArtwork(track, function(url) {
-                //   use the artwork somewhere
-                // });
-                $('#playlist_next').append(OpenSpice.templates.trackInQueue({
-                    name: track.name,
-                    artists: _.pluck(track.artists, 'name').join(', '),
-                    href: track.href
-                }));
+                OpenSpice.useAlbumArtwork(track, function(url) {
+                  $('#playlist_next').append(OpenSpice.templates.artworkInQueue({
+                      src: url 
+                  }));
+                });
             });
         } else {
-            // OpenSpice.useAlbumArtwork(added, function(url) {
-            //   use the artwork somewhere
-            // });
-            $('#playlist_next').append(OpenSpice.templates.trackInQueue({
-                name: added.name,
-                artists: _.pluck(added.artists, 'name').join(', '),
-                href: added.href
-            }));
+            OpenSpice.useAlbumArtwork(added, function(url) {
+              $('#playlist_next').append(OpenSpice.templates.artworkInQueue({
+                  src: url 
+              }));
+            });
         }
         $('.fnct_rm').click(OpenSpice.ask_rm_this).addClass('fnct_rm_done').removeClass('fnct_rm');
         $('#playlist_next tr:first').find('.fnct_rm_done').remove();
