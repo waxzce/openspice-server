@@ -89,7 +89,7 @@ var MASTERPASS = '', OpenSpice = (function() {
 
     p.updateDisplayedQueue = function(added) {
         if (_.isArray(added)) {
-            _.each(added,
+            _.each(_.tail(added),
             function(track) {
                 OpenSpice.useAlbumArtwork(track, "large", function(url) {
                   $('#playlist_next').append(OpenSpice.templates.trackInQueue({
