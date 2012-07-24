@@ -19,7 +19,7 @@ var MASTERPASS = '', OpenSpice = (function() {
 
         currentlyPlaying: _.template('<h5><%= name %></h5><p><%= album %><br /><%= artists %></p>'),
 
-        trackInQueue: _.template('<li class="playlist_fellows"><p class="item-title"><strong><%= title %></strong> - <span><%= artists %></span></p><img src="<%= src %>" alt=""/></li>')
+        trackInQueue: _.template('<li class="playlist_fellows"><p class="item-title"><strong><%= title %></strong> - <span><%= artists %></span></p><img class="<%= uid %>" alt=""/></li>')
     };
 
     p.fetchQueue = function() {
@@ -91,21 +91,24 @@ var MASTERPASS = '', OpenSpice = (function() {
         if (_.isArray(added)) {
             _.each(_.tail(added),
             function(track) {
+                $('#playlist_next').append(OpenSpice.templates.trackInQueue({
+                    uid: track.href.replace(":", "_", "g"),
+                    title: track.name,
+                    artists: _.pluck(track.artists, "name").join(", ")
+                }));
                 OpenSpice.useAlbumArtwork(track, "large", function(url) {
-                  $('#playlist_next').append(OpenSpice.templates.trackInQueue({
-                      title: track.name,
-                      artists: _.pluck(track.artists, "name").join(", "),
-                      src: url
-                  }));
+                  $("."+track.href.replace(":", "_", "g")).attr("src", url);
                 });
             });
         } else {
+            $('#playlist_next').append(OpenSpice.templates.trackInQueue({
+                 uid: track.href.replace(":", "_", "g"),
+                 title: added.name,
+                 artists: _.pluck(added.artists, "name").join(", ")
+            }));
+
             OpenSpice.useAlbumArtwork(added, "large", function(url) {
-              $('#playlist_next').append(OpenSpice.templates.trackInQueue({
-                   title: added.name,
-                   artists: _.pluck(added.artists, "name").join(", "),
-                   src: url
-              }));
+                $("."+track.href.replace(":", "_", "g")).attr("src", url);
             });
         }
         $('.fnct_rm').click(OpenSpice.ask_rm_this).addClass('fnct_rm_done').removeClass('fnct_rm');
