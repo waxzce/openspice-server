@@ -117,7 +117,7 @@ var MASTERPASS = '', OpenSpice = (function() {
 
     p.manageTrackProgression = function(e) {
         if (!_.isEmpty(e)) {
-            var elem = $('#playing_box .progress .bar');
+            var elem = $('#playing_box_wall .progress .bar');
             elem.stop(true, true);
             elem.css({
                 'width': '0%',
