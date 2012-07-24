@@ -99,6 +99,10 @@ table#playlist_next tr:first .fnct_rm_done{
 	transition: opacity 1s ease-in-out;
 }
 
+#wall-page #playing p, #wall_queue .item-title{
+   font-size:150%;
+}
+
 #wall_queue ul {
     margin-left: 0;
 }
@@ -107,10 +111,10 @@ table#playlist_next tr:first .fnct_rm_done{
    width: 174px;
    float: left;
    list-style-type: none;
+   margin-right:20px;
 }
-
 #wall_queue .item-title {
-   height: 4em;
+   height: 3em;
    line-height: 107%;
    text-overflow: ellipsis;
 }
