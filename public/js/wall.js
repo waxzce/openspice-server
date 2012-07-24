@@ -102,13 +102,13 @@ var MASTERPASS = '', OpenSpice = (function() {
             });
         } else {
             $('#playlist_next').append(OpenSpice.templates.trackInQueue({
-                 uid: track.href.replace(":", "_", "g"),
+                 uid: added.href.replace(":", "_", "g"),
                  title: added.name,
                  artists: _.pluck(added.artists, "name").join(", ")
             }));
 
             OpenSpice.useAlbumArtwork(added, "large", function(url) {
-                $("."+track.href.replace(":", "_", "g")).attr("src", url);
+                $("."+added.href.replace(":", "_", "g")).attr("src", url);
             });
         }
         $('.fnct_rm').click(OpenSpice.ask_rm_this).addClass('fnct_rm_done').removeClass('fnct_rm');
