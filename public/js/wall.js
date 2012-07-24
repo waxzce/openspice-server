@@ -54,11 +54,18 @@ var MASTERPASS = '', OpenSpice = (function() {
                 name: t.name,
                 artists: _.pluck(t.artists, 'name').join(', ')
             }));
-            OpenSpice.displayAlbumArtwork(_.pluck(t.artists, "name").join(","), t.album.name);
+            OpenSpice.useAlbumArtwork(t, OpenSpice.updateAlbumArtwork);
         }
     };
 
-    p.displayAlbumArtwork = function(artist, album) {
+    p.updateAlbumArtwork = function(newUrl) {
+       $("#artwork-container img:last").addClass("old");
+       $("#artwork-container").prepend($('<img src="'+newUrl+'" />'));
+       $("#artwork-container img.old").css("opacity", "0");
+       setTimeout(function() { $("#artwork-container img.old").remove(); }, 1000);
+    };
+
+    p.useAlbumArtwork = function(track, cb) {
         var key = "b25b959554ed76058ac220b7b2e0a026";
         var url = "http://ws.audioscrobbler.com/2.0/";
 
@@ -67,11 +74,11 @@ var MASTERPASS = '', OpenSpice = (function() {
             method: "album.getinfo",
             format: "json",
             api_key: key,
-            artist: artist,
-            album: album
+            artist: _.pluck(track.artists, "name").join(", "),
+            album: track.album.name
         }, function(data) {
             var url = _.find(data.album.image, function(i) { return i.size == "extralarge"; })["#text"];
-            $("#artwork").attr("src", url);
+            cb(url);
         });
     };
 
@@ -79,6 +86,9 @@ var MASTERPASS = '', OpenSpice = (function() {
         if (_.isArray(added)) {
             _.each(added,
             function(track) {
+                // OpenSpice.useAlbumArtwork(track, function(url) {
+                //   use the artwork somewhere
+                // });
                 $('#playlist_next').append(OpenSpice.templates.trackInQueue({
                     name: track.name,
                     artists: _.pluck(track.artists, 'name').join(', '),
@@ -86,6 +96,9 @@ var MASTERPASS = '', OpenSpice = (function() {
                 }));
             });
         } else {
+            // OpenSpice.useAlbumArtwork(added, function(url) {
+            //   use the artwork somewhere
+            // });
             $('#playlist_next').append(OpenSpice.templates.trackInQueue({
                 name: added.name,
                 artists: _.pluck(added.artists, 'name').join(', '),
@@ -131,7 +144,7 @@ $(function() {
     OpenSpice.socket.on('queue_add', OpenSpice.updateDisplayedQueue);
     OpenSpice.socket.on('queue_next_a',
     function(t) {
-        $('#playlist_next tr:first').remove();
+        $('#mainmenu li.playlist_fellows:first').remove();
     });
 
     OpenSpice.socket.on('re_init',
