@@ -69,6 +69,10 @@ table#playlist_next tr:first .fnct_rm_done{
    }
 }
 
+#wall-page{
+   overflow:hidden;
+}
+
 #wall-page, #wall-page h1, #wall-page h2, #wall-page h3, #wall-page h4,
 #wall-page h5{
    font-size:160%;
@@ -117,4 +121,5 @@ table#playlist_next tr:first .fnct_rm_done{
    height: 3em;
    line-height: 107%;
    text-overflow: ellipsis;
+   overflow:hidden;
 }
