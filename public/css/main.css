@@ -69,17 +69,25 @@ table#playlist_next tr:first .fnct_rm_done{
    }
 }
 
-#wall-page, #wall-page h2, #wall-page h3{
+#wall-page, #wall-page h1, #wall-page h2, #wall-page h3, #wall-page h4,
+#wall-page h5{
    font-size:160%;
    line-height:150%;
 }
    #wall-page .alert-info, #wall-page .alert-info h2{
-      color:#222;
+      background:none;
+      color:#D9541A;
+   }
+   #wall-page .alert-info h2{
+      background:none;
+      color:#eee;
    }
 
 #artwork-container {
     position: relative;
-    max-width: 100%;
+    width:300px;
+    height:300px;
+    margin-bottom:50px;
 }
 
 #artwork-container img {
@@ -97,7 +105,12 @@ table#playlist_next tr:first .fnct_rm_done{
 
 #wall_queue li {
    width: 174px;
-   height: 174px;
    float: left;
    list-style-type: none;
+}
+
+#wall_queue .item-title {
+   height: 4em;
+   line-height: 107%;
+   text-overflow: ellipsis;
 }
