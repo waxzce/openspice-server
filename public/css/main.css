@@ -82,3 +82,10 @@ table#playlist_next tr:first .fnct_rm_done{
 	transition: opacity 1s ease-in-out;
 }
 
+#wall_queue li {
+   width: 174px;
+   height: 174px;
+   float: left;
+   border: 1px solid black;
+   list-style-type: none;
+}
