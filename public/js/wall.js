@@ -57,7 +57,7 @@ var MASTERPASS = '', OpenSpice = (function() {
     };
 
     p.updateAlbumArtwork = function(newUrl) {
-       $("#artwork-container img:last").addClass("old");
+       $("#artwork-container img").addClass("old");
        $("#artwork-container").prepend($('<img src="'+newUrl+'" />'));
        $("#artwork-container img.old").css("opacity", "0");
        setTimeout(function() { $("#artwork-container img.old").remove(); }, 1000);
