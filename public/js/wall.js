@@ -101,7 +101,7 @@ var MASTERPASS = '', OpenSpice = (function() {
             });
         } else {
             OpenSpice.useAlbumArtwork(added, "large", function(url) {
-              $('#playlist_next').prepend(OpenSpice.templates.trackInQueue({
+              $('#playlist_next').append(OpenSpice.templates.trackInQueue({
                    title: added.name,
                    artists: _.pluck(added.artists, "name").join(", "),
                    src: url
