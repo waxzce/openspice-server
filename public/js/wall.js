@@ -64,7 +64,7 @@ var MASTERPASS = '', OpenSpice = (function() {
     };
 
     p.useAlbumArtwork = function(track, size, cb) {
-        var key = "b25b959554ed76058ac220b7b2e0a026";
+        var key = "c21964c02d4e5ba9b8ab6b8a7e79a123";
         var url = "http://ws.audioscrobbler.com/2.0/";
 
 
