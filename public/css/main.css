@@ -66,3 +66,19 @@ table#playlist_next tr:first .fnct_rm_done{
 }
 
 
+
+#artwork-container {
+    position: relative;
+    width: 300px;
+    height: 300px;
+}
+
+#artwork-container img {
+    position: absolute;
+    left: 0;
+	-webkit-transition: opacity 1s ease-in-out;
+	-moz-transition: opacity 1s ease-in-out;
+	-o-transition: opacity 1s ease-in-out;
+	transition: opacity 1s ease-in-out;
+}
+

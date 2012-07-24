@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <title>SounderBox + Le Nid</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="description" content="">
+      <meta name="author" content="">
+
+      <link href="/css/bootstrap.css" rel="stylesheet">
+      <link rel="stylesheet" type="text/css" href="/css/main.css" media="all"/>
+      <link href="/css/bootstrap-responsive.css" rel="stylesheet">
+      <link href="/css/jquery.autocomplete.css" rel="stylesheet">
+      <link rel="shortcut icon" type="image/png" href="/img/favicon.png"/>
+      
+      <script src="/js/jquery-1.7.2.min.js"></script>
+      <script src="/js/underscore-min.js"></script>
+      <script src="/js/jquery.autocomplete.min.js"></script>
+      <script type="text/javascript" src="/js/bootstrap-alert.js"></script>
+   </head>
+   <body>
+      <!-- navigation -->
+      <div class="navbar navbar-fixed-top">
+         <div class="navbar-inner">
+            <div class="container-fluid">
+               <a class="brand" href=".">SounderBox + Le Nid</a>
+               <!--
+               <span class="icon-bar btn btn-inverse" id="btn_volume_down">
+               <i class="icon-volume-down icon-white"></i>
+               </span>
+               <span class="icon-bar btn btn-inverse" id="btn_volume_up">
+               <i class="icon-volume-up icon-white"></i>
+               </span>
+               <span class="icon-bar btn btn-inverse" id="btn_flush_plz">
+               <i class="icon-remove icon-white"></i>
+               </span>
+               -->
+            </div>
+         </div>
+      </div>
+      <!-- body -->
+      <div class="container-fluid">
+         <div class="row-fluid">
+            <!-- left col -->
+            <div class="span4">
+               <!-- playing box -->
+               <div id="playing_box" class="well">
+                  <div id="playing"></div>
+                  <div class="progress progress-warning">
+                     <div class="bar" style="width: 0%;"></div>
+                  </div>
+               </div>
+               <!-- presentation -->
+               <div class="alert alert-info">
+                  <a class="close" data-dismiss="alert">&times;</a>
+                  <h2>
+                     <strong>SounderBox</strong> - Connect your musical feeling
+                  </h2>
+                  <ol>
+                     <li>
+                        <strong>Découvrez</strong> de nouveaux morceaux et
+                        <strong>partagez</strong> vos goûts musicaux&nbsp;!
+                     </li>
+                  </ol>
+               </div>
+               <!-- playlist -->
+               <ul id="mainmenu" class="well nav nav-list">
+                  <li id="playlist_next" class="nav-header">La playlist</li>
+               </ul>
+               <img src="/img/illus.png" alt="24 juillet / 20h : sounderbox + le nid" id="illus" />
+            </div>
+            <!-- song list -->
+            <div class="span8">
+                <div id="artwork-container">
+                </div>
+            </div>
+         </div>
+      </div>
+      <!-- scripts -->
+      <script src="/socket.io/socket.io.js"></script>
+      <script src="/js/wall.js"></script>
+   </body>
+</html>
