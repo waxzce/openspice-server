@@ -20,6 +20,10 @@ table .btn.disabled{
 .typeahead{
    z-index:1040;
 }
+.playlist_fellows{
+   border-radius:4px;
+   padding:5px;
+}
 #illus{
    bottom:0;
    display:none;
