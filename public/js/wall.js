@@ -46,7 +46,6 @@ var MASTERPASS = '', OpenSpice = (function() {
     };
 
     p.displayCurrentTrack = function(t) {
-        console.log(t);
         if (!_.isEmpty(t)) {
             $('#playing').html(OpenSpice.templates.currentlyPlaying({
                 name: t.name,
