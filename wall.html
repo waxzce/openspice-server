@@ -18,7 +18,7 @@
       <script src="/js/jquery.autocomplete.min.js"></script>
       <script type="text/javascript" src="/js/bootstrap-alert.js"></script>
    </head>
-   <body>
+   <body id="wall-page">
       <!-- navigation -->
       <div class="navbar navbar-fixed-top">
          <div class="navbar-inner">
@@ -34,22 +34,44 @@
             <div class="span4">
               <!-- presentation -->
                <div class="alert alert-info">
-                  <a class="close" data-dismiss="alert">&times;</a>
                   <h2>
-                     <strong>SounderBox</strong> - Connect your musical world
+                     Bienvenue à la soirée expérimentale SOUNDERBOX au Nid !
                   </h2>
-                  <ol>
-                     <li>
-                        <strong>Découvrez</strong> de nouveaux morceaux et
-                        <strong>partagez</strong> vos goûts musicaux&nbsp;!
-                     </li>
-                  </ol>
+                  <p>
+                     Testez en avant-première notre jukebox qui permet de
+                     diffuser de la musique de manière collaborative et
+                     participative dans un même espace.
+                  </p>
+                  <p>
+                     Développée en une nuit par <strong>Quentin Adam</strong>,
+                     la version 1.0 de la SOUNDERBOX fut testée et approuvée par
+                     le <strong>CompanyCampus</strong>, le self-incubateur du
+                     quartier de la création.
+                  </p>
+                  <p>
+                     Prochainement, de nouvelles fonctionnalités permettront de
+                     choisir, d'orienter voir de limiter la playlist du lieu !
+                  </p>
+                  <p>
+                     <strong>Pierre-Henri Mousset</strong> de
+                     <strong>Yozik</strong> s'est depuis joint au projet.
+                     Pour parfaire la dream team,
+                     <strong>Anthony Gongora</strong>, lui aussi
+                     professionnel de la musique, a rejoint l'équipe et est en
+                     charge de son développement.
+                  </p>
+                  <p>
+                     Testez cette innovation en participant vous aussi à la
+                     <strong>playlist atmosphérique du Nid</strong>.
+                  </p>
                </div>
             </div>
             <div class="span8">
               <!-- current track -->
               <div class="row-fluid">
-                <div class="span6">
+                <!-- artwork -->
+                <div id="artwork-container" class="span4"></div>
+                <div class="span8">
                   <!-- playing box -->
                   <div id="playing_box_wall" class="well">
                     <div id="playing"></div>
@@ -58,12 +80,9 @@
                     </div>
                   </div>
                 </div>
-
-                <!-- artwork -->
-                <div id="artwork-container" class="span6"></div>
               </div>
               <div class="row-fluid" id="wall_queue">
-                  <h3>Music Queue</h3>
+                  <h3>La playlist</h3>
                   <!-- playlist -->
                   <ul id="playlist_next"></ul>
               </div>

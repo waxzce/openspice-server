@@ -65,12 +65,17 @@ table#playlist_next tr:first .fnct_rm_done{
    }
 }
 
-
+#wall-page, #wall-page h2, #wall-page h3{
+   font-size:160%;
+   line-height:150%;
+}
+   #wall-page .alert-info, #wall-page .alert-info h2{
+      color:#222;
+   }
 
 #artwork-container {
     position: relative;
-    width: 300px;
-    height: 300px;
+    max-width: 100%;
 }
 
 #artwork-container img {
