@@ -19,8 +19,7 @@ var MASTERPASS = '', OpenSpice = (function() {
 
         currentlyPlaying: _.template('<h5><%= name %></h5><p><%= album %><br /><%= artists %></p>'),
 
-        trackInQueue: _.template('<li class="playlist_fellows"><i class="icon-music icon-white"></i><strong><%= name %></strong> - <%= artists %></li>'),
-        artworkInQueue: _.template('<li class="playlist_fellows"><img src="<%= src %>" alt=""/></li>')
+        trackInQueue: _.template('<li class="playlist_fellows"><p><span><%= title %></span><span><%= artists %></span></p><img src="<%= src %>" alt=""/></li>')
     };
 
     p.fetchQueue = function() {
@@ -54,7 +53,7 @@ var MASTERPASS = '', OpenSpice = (function() {
                 album: t.album.name,
                 artists: _.pluck(t.artists, 'name').join(', ')
             }));
-            OpenSpice.useAlbumArtwork(t, OpenSpice.updateAlbumArtwork);
+            OpenSpice.useAlbumArtwork(t, "extralarge", OpenSpice.updateAlbumArtwork);
         }
     };
 
@@ -65,7 +64,7 @@ var MASTERPASS = '', OpenSpice = (function() {
        setTimeout(function() { $("#artwork-container img.old").remove(); }, 1000);
     };
 
-    p.useAlbumArtwork = function(track, cb) {
+    p.useAlbumArtwork = function(track, size, cb) {
         var key = "b25b959554ed76058ac220b7b2e0a026";
         var url = "http://ws.audioscrobbler.com/2.0/";
 
@@ -75,9 +74,16 @@ var MASTERPASS = '', OpenSpice = (function() {
             format: "json",
             api_key: key,
             artist: _.pluck(track.artists, "name").join(", "),
-            album: track.album.name
+            album: track.album.name,
+            autocorrect: 1
         }, function(data) {
-            var url = _.find(data.album.image, function(i) { return i.size == "extralarge"; })["#text"];
+            var url = "";
+            if(typeof data.album !== "undefined") {
+                url = _.find(data.album.image, function(i) { return i.size == size; })["#text"];
+                if(typeof url === "undefined" || url == "") url = "/img/default_"+size+".jpg";
+            } else {
+                url = "/img/default_"+size+".jpg";
+            }
             cb(url);
         });
     };
@@ -86,16 +92,18 @@ var MASTERPASS = '', OpenSpice = (function() {
         if (_.isArray(added)) {
             _.each(added,
             function(track) {
-                OpenSpice.useAlbumArtwork(track, function(url) {
-                  $('#playlist_next').append(OpenSpice.templates.artworkInQueue({
-                      src: url 
+                OpenSpice.useAlbumArtwork(track, "large", function(url) {
+                  $('#playlist_next').append(OpenSpice.templates.trackInQueue({
+                      title: track.name,
+                      artists: _.pluck(track.artists, "name").join(", "),
+                      src: url
                   }));
                 });
             });
         } else {
-            OpenSpice.useAlbumArtwork(added, function(url) {
+            OpenSpice.useAlbumArtwork(added, "large", function(url) {
               $('#playlist_next').append(OpenSpice.templates.artworkInQueue({
-                  src: url 
+                  src: url
               }));
             });
         }
